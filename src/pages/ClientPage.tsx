@@ -14,14 +14,14 @@ const ClientPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Ricerca clienti</IonTitle>
+          <IonTitle>Clienti</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
 
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Ricerca Clienti</IonTitle>
+            <IonTitle size="large">Clienti</IonTitle>
           </IonToolbar>
         </IonHeader>
 
