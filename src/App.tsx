@@ -9,9 +9,11 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import ClientPage from './pages/ClientPage';
-import Tab2 from './pages/Tab2';
+import { cartOutline, clipboard, clipboardOutline, ellipse, square, triangle } from 'ionicons/icons';
+import ClientListPage from './pages/ClientListPage';
+import ItemListPage from './pages/ItemListPage';
+import ClientDetailPage from './pages/ClientDetailPage';
+import ItemDetailPage from './pages/ItemDetailPage';
 import Tab3 from './pages/Tab3';
 
 /* Core CSS required for Ionic components to work properly */
@@ -38,27 +40,27 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/clientPage">
-            <ClientPage />
+          <Route exact path="/ClientListPage">
+            <ClientListPage />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/itemListPage">
+            <ItemListPage />
           </Route>
           <Route path="/tab3">
             <Tab3 />
           </Route>
           <Route exact path="/">
-            <Redirect to="/clientPage" />
+            <Redirect to="/ClientListPage" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="clientPage" href="/clientPage">
-            <IonIcon icon={triangle} />
+          <IonTabButton tab="ClientListPage" href="/ClientListPage">
+            <IonIcon icon={clipboardOutline} />
             <IonLabel>Clienti</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+          <IonTabButton tab="itemListPage" href="/itemListPage">
+            <IonIcon icon={cartOutline} />
+            <IonLabel>Listino</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={square} />
@@ -66,6 +68,12 @@ const App: React.FC = () => (
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
+      <Route exact path="/ClientDetailPage">
+        <ClientDetailPage />
+      </Route>
+      <Route exact path="/ItemDetailPage">
+        <ItemDetailPage />
+      </Route>
     </IonReactRouter>
   </IonApp>
 );

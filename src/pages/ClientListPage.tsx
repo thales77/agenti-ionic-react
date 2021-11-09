@@ -6,30 +6,27 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import './ClientPage.css';
+import './ClientListPage.css';
 import ClientSearchForm from '../components/ClientSearchForm';
+import ClientList from '../components/ClientList';
 
-const ClientPage: React.FC = () => {
+//test data
+import testData from '../testData';
+
+const ClientListPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Clienti</IonTitle>
+        <ClientSearchForm />
         </IonToolbar>
+
       </IonHeader>
       <IonContent fullscreen>
-
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Clienti</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
-      <ClientSearchForm />
-
+        <ClientList clientArray={testData.clients} />
       </IonContent>
     </IonPage>
   );
 };
 
-export default ClientPage;
+export default ClientListPage;
