@@ -8,9 +8,8 @@ import {
   IonIcon
 } from '@ionic/react';
 
-
 import { CallNumber } from '@ionic-native/call-number';
-import { informationCircle, informationCircleOutline } from 'ionicons/icons';
+import { informationCircleOutline } from 'ionicons/icons';
 
 type Props = {
   clientArray: {
@@ -23,6 +22,7 @@ type Props = {
   }[]
 };
 
+
 const ClientList = ({ clientArray }: Props) => {
 
   const Call = (phoneNumber: string) => {
@@ -33,7 +33,7 @@ const ClientList = ({ clientArray }: Props) => {
     <IonList>
       {clientArray.map((client) => (
         <IonItemSliding key={client.codice}>
-          <IonItem href="/ClientDetailPage">
+          <IonItem href='/ClientDetailPage'>
             <IonLabel>
               <IonLabel color="dark"><p>{client.codice}</p></IonLabel>
               <IonLabel color="dark"><h3>{client.ragSociale} </h3></IonLabel>

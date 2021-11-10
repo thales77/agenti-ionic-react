@@ -10,14 +10,20 @@ import {
   IonTitle,
   IonToolbar,
   IonButtons,
-  IonBackButton
+  IonBackButton,
+  IonIcon,
+  IonModal
 } from '@ionic/react';
 import './ClientDetailPage.css';
 
-//test data
-import testData from '../testData';
+import { calculatorOutline, calendar, cartOutline, cash, folderOpen, timer } from 'ionicons/icons';
+import ClientInfoModal from '../components/ClientInfoModal';
 
 const ClientDetailPage: React.FC = () => {
+
+  const [showModal, setShowModal] = useState(false);
+
+
   return (
     <IonPage>
       <IonHeader>
@@ -31,24 +37,52 @@ const ClientDetailPage: React.FC = () => {
       <IonContent fullscreen>
         <IonGrid>
           <IonRow>
-            <IonCol><IonButton>Scheda anagrafica</IonButton></IonCol>
+            <IonCol><IonButton expand="full" onClick={() => setShowModal(true)}>
+              <IonIcon slot="start" icon={folderOpen} />
+              Scheda anagrafica
+            </IonButton>
+            </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton>Storico acquisti</IonButton></IonCol>
+            <IonCol><IonButton expand="full">
+              <IonIcon slot="start" icon={calendar} />
+              Storico acquisti
+            </IonButton>
+            </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton>Spese più importanti</IonButton></IonCol>
+            <IonCol><IonButton expand="full">
+              <IonIcon slot="start" icon={cash} />
+              Acquisti più importanti
+            </IonButton>
+            </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton>Listino</IonButton></IonCol>
+            <IonCol><IonButton expand="full">
+            <IonIcon slot="start" icon={calculatorOutline} />
+              Listino
+              </IonButton>
+              </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton>Carello</IonButton></IonCol>
+            <IonCol><IonButton expand="full">
+            <IonIcon slot="start" icon={cartOutline} />
+              Carello
+              </IonButton>
+              </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton>Storico offerte</IonButton></IonCol>
+            <IonCol><IonButton expand="full" >
+            <IonIcon slot="start" icon={timer} />
+              Offerte salvate
+              </IonButton>
+              </IonCol>
           </IonRow>
         </IonGrid>
+        <IonModal isOpen={showModal} cssClass='my-custom-class'>
+        <ClientInfoModal />
+        <IonButton onClick={() => setShowModal(false)}>Chiudi</IonButton>
+      </IonModal>
       </IonContent>
     </IonPage>
   );
