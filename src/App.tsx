@@ -9,12 +9,14 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { cartOutline, clipboard, clipboardOutline, ellipse, square, triangle } from 'ionicons/icons';
+import { cartOutline, clipboard, clipboardOutline, ellipse, square, swapHorizontalOutline, triangle } from 'ionicons/icons';
 import ClientListPage from './pages/ClientListPage';
 import ItemListPage from './pages/ItemListPage';
 import ClientDetailPage from './pages/ClientDetailPage';
 import ItemDetailPage from './pages/ItemDetailPage';
-import Tab3 from './pages/Tab3';
+import OrderArchivePage from './pages/OrderArchivePage';
+import OrderDetailPage from './pages/OrderDetailPage';
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -46,8 +48,8 @@ const App: React.FC = () => (
           <Route exact path="/itemListPage">
             <ItemListPage />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route exact path="/OrderArchivePage">
+            <OrderArchivePage />
           </Route>
           <Route exact path="/">
             <Redirect to="/ClientListPage" />
@@ -62,9 +64,9 @@ const App: React.FC = () => (
             <IonIcon icon={cartOutline} />
             <IonLabel>Listino</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+          <IonTabButton tab="OrderArchivePage" href="/OrderArchivePage">
+            <IonIcon icon={swapHorizontalOutline} />
+            <IonLabel>Archivio offerte</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
@@ -73,6 +75,9 @@ const App: React.FC = () => (
       </Route>
       <Route exact path="/ItemDetailPage">
         <ItemDetailPage />
+      </Route>
+      <Route exact path="/OrderDetailPage">
+        <OrderDetailPage />
       </Route>
     </IonReactRouter>
   </IonApp>

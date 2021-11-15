@@ -28,6 +28,9 @@ const ClientInfoModal = () => {
           <IonLabel>Telefono</IonLabel>
         </IonItem>
         <IonItem>
+          <IonLabel>Cell.</IonLabel>
+        </IonItem>
+        <IonItem>
           <IonLabel>Email</IonLabel>
         </IonItem>
       </IonList>
@@ -37,6 +40,12 @@ const ClientInfoModal = () => {
         </IonListHeader>
         <IonItem>
           <IonLabel>Fatturato</IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonLabel>Scaduto</IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonLabel>Categoria di sconto</IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>Modalita di pagamento</IonLabel>
