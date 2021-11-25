@@ -10,13 +10,13 @@ import { cardOutline, cardSharp, cart, cartOutline, informationCircle } from 'io
 
 type Props = {
   itemArray: {
-    codiceArticolo: string;
-    descrizione: string;
-    codForn1: string;
-    codForn2: string;
-    fornitoreArticolo: string;
-    dispTot: string;
-    UMI: string;
+    codiceArticolo: string | null;
+    descrizione: string | null;
+    codForn1: string | null;
+    codForn2: string | null;
+    fornitoreArticolo: string | null;
+    dispTot: string | null;
+    UMI: string | null;
   }[]
 };
 
@@ -25,7 +25,7 @@ const ItemList = ({ itemArray }: Props) => {
   return (
     <IonList>
       {itemArray.map((item) => (
-          <IonItem href="/ItemDetailPage" key={item.codiceArticolo}>
+          <IonItem routerLink='/ItemDetailPage' key={item.codiceArticolo}>
             <IonLabel>
               <IonLabel color="dark"><p>{item.codiceArticolo} - {item.codForn1}</p></IonLabel>
               <IonLabel color="dark"><h3>{item.descrizione} </h3></IonLabel>

@@ -8,29 +8,28 @@ import {
   IonButtons,
   IonBackButton
 } from '@ionic/react';
-import './ItemListPage.css';
-import ItemSearchForm from '../components/ItemSearchForm';
-import ItemList from '../components/ItemList';
+import './ClientSalesHistoryPage.css';
+import SalesHistoryList from '../components/SalesHistoryList';
 
-//Temporary data
+//test data
 import testData from '../testData';
 
-const ItemListPage: React.FC = () => {
+const ClientSalesHistoryPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-        <IonButtons slot="start">
+          <IonButtons slot="start">
             <IonBackButton defaultHref="/ClientDetailPage" />
           </IonButtons>
-          <ItemSearchForm />
+          <IonTitle>Storico Acquisti</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <ItemList itemArray={testData.items} />
+        <SalesHistoryList salesArray={testData.salesHistory} />
       </IonContent>
     </IonPage>
   );
 };
 
-export default ItemListPage;
+export default ClientSalesHistoryPage;

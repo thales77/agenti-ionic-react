@@ -13,27 +13,27 @@ import { informationCircleOutline } from 'ionicons/icons';
 
 type Props = {
   clientArray: {
-    ragSociale: string;
-    codice: string;
-    indirizzo: string;
-    cap: string;
-    comune: string;
-    noTelefono: string;
+    ragSociale: string | null;
+    codice: string | null;
+    indirizzo: string | null;
+    cap: string | null;
+    comune: string | null;
+    noTelefono: string | null;
   }[]
 };
 
 
 const ClientList = ({ clientArray }: Props) => {
 
-  const Call = (phoneNumber: string) => {
-    CallNumber.callNumber(phoneNumber, true)
+  const Call = (phoneNumber: string | null) => {
+    phoneNumber && CallNumber.callNumber(phoneNumber, true);
   };
 
   return (
     <IonList>
       {clientArray.map((client) => (
         <IonItemSliding key={client.codice}>
-          <IonItem href='/ClientDetailPage'>
+          <IonItem routerLink='/ClientDetailPage'>
             <IonLabel>
               <IonLabel color="dark"><p>{client.codice}</p></IonLabel>
               <IonLabel color="dark"><h3>{client.ragSociale} </h3></IonLabel>

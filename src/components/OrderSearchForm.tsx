@@ -2,29 +2,50 @@ import React, { useState } from 'react';
 import {
   IonItem,
   IonLabel,
-  IonSelect,
-  IonSelectOption,
-  IonInput
+  IonDatetime
 } from '@ionic/react';
 
 const OrderSearchForm: React.FC = () => {
 
-  const [searchTerm, setsearchTerm] = useState<string>();
-  const [searchOptions, setSearchOptions] = useState<string[]>(['ragioneSociale']);
+  let today = new Date();
+  let defaultEndDate = today.toISOString(); 
+  
+  let lastMonth = new Date(today.setMonth(today.getMonth() - 1))
+  let defaultStartDate = lastMonth.toISOString();
+
+
+  const [startDate, setStartDate] = useState<string>(defaultStartDate);
+  const [endDate, setEndDate] = useState<string>(defaultEndDate);
 
   return (
     <>
       <IonItem>
-        <IonLabel>Ricerca per</IonLabel>
-        <IonSelect multiple={true} value={searchOptions} onIonChange={e => setSearchOptions(e.detail.value)}>
-          <IonSelectOption value="ragioneSociale">Ragione Sociale</IonSelectOption>
-          <IonSelectOption value="codiceCliente">Codice Cliente</IonSelectOption>
-          <IonSelectOption value="partitaIva">Partita Iva</IonSelectOption>
-          <IonSelectOption value="comune">Comune</IonSelectOption>
-        </IonSelect>
+        <IonLabel>Data inizio</IonLabel>
+        <IonDatetime
+          displayFormat="DD MMM YYYY"
+          pickerFormat="DD MMM YYYY"
+          placeholder="Data inizio"
+          monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
+          dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
+          cancelText="Annulla"
+          doneText="Ok"
+          value={startDate} onIonChange={e => setStartDate(e.detail.value!)}
+        >
+        </IonDatetime>
       </IonItem>
       <IonItem>
-        <IonInput value={searchTerm} placeholder={"Cerca cliente... "} onIonChange={e => setsearchTerm(e.detail.value!)}></IonInput>
+        <IonLabel>Data fine</IonLabel>
+        <IonDatetime
+          displayFormat="DD MMM YYYY"
+          pickerFormat="DD MMM YYYY"
+          placeholder="Data fine"
+          monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
+          dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
+          cancelText="Annulla"
+          doneText="Ok"
+          value={endDate} onIonChange={e => setEndDate(e.detail.value!)}
+        >
+        </IonDatetime>
       </IonItem>
     </>
   );

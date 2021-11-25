@@ -9,13 +9,15 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { cartOutline, clipboard, clipboardOutline, ellipse, square, swapHorizontalOutline, triangle } from 'ionicons/icons';
+import { cartOutline, clipboardOutline, swapHorizontalOutline } from 'ionicons/icons';
 import ClientListPage from './pages/ClientListPage';
 import ItemListPage from './pages/ItemListPage';
 import ClientDetailPage from './pages/ClientDetailPage';
 import ItemDetailPage from './pages/ItemDetailPage';
 import OrderArchivePage from './pages/OrderArchivePage';
 import OrderDetailPage from './pages/OrderDetailPage';
+import ClientSalesHistoryPage from './pages/ClientSalesHistoryPage';
+import ClientMajorSalesHistoryPage from './pages/ClientMajorSalesHistoryPage';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -45,9 +47,6 @@ const App: React.FC = () => (
           <Route exact path="/ClientListPage">
             <ClientListPage />
           </Route>
-          <Route exact path="/itemListPage">
-            <ItemListPage />
-          </Route>
           <Route exact path="/OrderArchivePage">
             <OrderArchivePage />
           </Route>
@@ -59,10 +58,6 @@ const App: React.FC = () => (
           <IonTabButton tab="ClientListPage" href="/ClientListPage">
             <IonIcon icon={clipboardOutline} />
             <IonLabel>Clienti</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="itemListPage" href="/itemListPage">
-            <IonIcon icon={cartOutline} />
-            <IonLabel>Listino</IonLabel>
           </IonTabButton>
           <IonTabButton tab="OrderArchivePage" href="/OrderArchivePage">
             <IonIcon icon={swapHorizontalOutline} />
@@ -78,6 +73,15 @@ const App: React.FC = () => (
       </Route>
       <Route exact path="/OrderDetailPage">
         <OrderDetailPage />
+      </Route>
+      <Route exact path="/ClientSalesHistoryPage">
+        <ClientSalesHistoryPage />
+      </Route>
+      <Route exact path="/ClientMajorSalesHistoryPage">
+        <ClientMajorSalesHistoryPage />
+      </Route>
+      <Route exact path="/ItemListPage">
+        <ItemListPage />
       </Route>
     </IonReactRouter>
   </IonApp>

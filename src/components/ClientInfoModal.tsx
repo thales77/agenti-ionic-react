@@ -28,9 +28,6 @@ const ClientInfoModal = () => {
           <IonLabel>Telefono</IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Cell.</IonLabel>
-        </IonItem>
-        <IonItem>
           <IonLabel>Email</IonLabel>
         </IonItem>
       </IonList>

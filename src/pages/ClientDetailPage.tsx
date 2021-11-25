@@ -12,7 +12,8 @@ import {
   IonButtons,
   IonBackButton,
   IonIcon,
-  IonModal
+  IonModal,
+  IonItem
 } from '@ionic/react';
 import './ClientDetailPage.css';
 
@@ -44,45 +45,47 @@ const ClientDetailPage: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton expand="full">
-              <IonIcon slot="start" icon={calendar} />
-              Storico acquisti
-            </IonButton>
+            <IonCol>
+              <IonButton routerLink='/ClientSalesHistoryPage' expand="full">
+                <IonIcon slot="start" icon={calendar} />
+                Storico acquisti
+              </IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton expand="full">
-              <IonIcon slot="start" icon={cash} />
-              Acquisti più importanti
-            </IonButton>
+            <IonCol>
+              <IonButton routerLink='/ClientMajorSalesHistoryPage' expand="full">
+                <IonIcon slot="start" icon={cash} />
+                Spese più importanti
+              </IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton expand="full">
-            <IonIcon slot="start" icon={calculatorOutline} />
+            <IonCol><IonButton routerLink='/ItemListPage' expand="full">
+              <IonIcon slot="start" icon={calculatorOutline} />
               Listino
-              </IonButton>
-              </IonCol>
+            </IonButton>
+            </IonCol>
           </IonRow>
           <IonRow>
             <IonCol><IonButton expand="full">
-            <IonIcon slot="start" icon={cartOutline} />
+              <IonIcon slot="start" icon={cartOutline} />
               Carello
-              </IonButton>
-              </IonCol>
+            </IonButton>
+            </IonCol>
           </IonRow>
           <IonRow>
             <IonCol><IonButton expand="full" >
-            <IonIcon slot="start" icon={timer} />
+              <IonIcon slot="start" icon={timer} />
               Offerte salvate
-              </IonButton>
-              </IonCol>
+            </IonButton>
+            </IonCol>
           </IonRow>
         </IonGrid>
         <IonModal isOpen={showModal} cssClass='my-custom-class'>
-        <ClientInfoModal />
-        <IonButton onClick={() => setShowModal(false)}>Chiudi</IonButton>
-      </IonModal>
+          <ClientInfoModal />
+          <IonButton onClick={() => setShowModal(false)}>Chiudi</IonButton>
+        </IonModal>
       </IonContent>
     </IonPage>
   );
