@@ -20,7 +20,7 @@ const OrderSearchForm: React.FC = () => {
   return (
     <>
       <IonItem>
-        <IonLabel>Data inizio</IonLabel>
+        <IonLabel>Ordini inseriti dal</IonLabel>
         <IonDatetime
           displayFormat="DD MMM YYYY"
           pickerFormat="DD MMM YYYY"
@@ -34,7 +34,7 @@ const OrderSearchForm: React.FC = () => {
         </IonDatetime>
       </IonItem>
       <IonItem>
-        <IonLabel>Data fine</IonLabel>
+        <IonLabel>al</IonLabel>
         <IonDatetime
           displayFormat="DD MMM YYYY"
           pickerFormat="DD MMM YYYY"

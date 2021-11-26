@@ -70,14 +70,14 @@ const ClientDetailPage: React.FC = () => {
           <IonRow>
             <IonCol><IonButton expand="full">
               <IonIcon slot="start" icon={cartOutline} />
-              Carello
+              Carrello
             </IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol><IonButton expand="full" >
               <IonIcon slot="start" icon={timer} />
-              Offerte salvate
+              Carrelli salvati
             </IonButton>
             </IonCol>
           </IonRow>

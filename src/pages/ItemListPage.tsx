@@ -6,7 +6,8 @@ import {
   IonTitle,
   IonToolbar,
   IonButtons,
-  IonBackButton
+  IonBackButton,
+  IonProgressBar
 } from '@ionic/react';
 import './ItemListPage.css';
 import ItemSearchForm from '../components/ItemSearchForm';
@@ -16,6 +17,9 @@ import ItemList from '../components/ItemList';
 import testData from '../testData';
 
 const ItemListPage: React.FC = () => {
+
+  const [loading, setLoading] = useState<Boolean>(false);
+
   return (
     <IonPage>
       <IonHeader>
@@ -26,6 +30,7 @@ const ItemListPage: React.FC = () => {
           <ItemSearchForm />
         </IonToolbar>
       </IonHeader>
+      {loading && <IonProgressBar type="indeterminate"></IonProgressBar>}
       <IonContent fullscreen>
         <ItemList itemArray={testData.items} />
       </IonContent>

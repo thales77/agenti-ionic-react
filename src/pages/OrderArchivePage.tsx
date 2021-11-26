@@ -3,7 +3,9 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonToolbar
+  IonToolbar,
+  IonButtons,
+  IonMenuButton
 } from '@ionic/react';
 import './OrderArchivePage.css';
 import OrderSearchForm from '../components/OrderSearchForm';
@@ -17,6 +19,9 @@ const OrderArchivePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton auto-hide="false"></IonMenuButton>
+        </IonButtons>
         <OrderSearchForm />
         </IonToolbar>
 
