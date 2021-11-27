@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   IonButton,
   IonCol,
@@ -13,8 +13,12 @@ import {
   IonBackButton,
   IonIcon,
   IonModal,
-  IonItem
+  IonItem,
+  IonText
 } from '@ionic/react';
+
+import { AppContext } from '../State';
+
 import './ClientDetailPage.css';
 
 import { calculatorOutline, calendar, cartOutline, cash, folderOpen, timer } from 'ionicons/icons';
@@ -22,8 +26,11 @@ import ClientInfoModal from '../components/ClientInfoModal';
 
 const ClientDetailPage: React.FC = () => {
 
-  const [showModal, setShowModal] = useState(false);
+  //global state
+  const { state, dispatch } = useContext(AppContext);
 
+  //local state
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <IonPage>
@@ -32,7 +39,7 @@ const ClientDetailPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/ClientListPage" />
           </IonButtons>
-          <IonTitle>Dettaglio cliente</IonTitle>
+          <IonText>{state.client.codice} - {state.client.ragSociale}</IonText>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

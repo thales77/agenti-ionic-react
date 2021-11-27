@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -20,13 +20,61 @@ import {
   IonCardContent,
   IonText
 } from '@ionic/react';
+
+import axios from 'axios';
+
+import { AppContext } from '../State';
+
 import './ItemDetailPage.css';
 import { cartOutline, timer } from 'ionicons/icons';
 
-//test data
-import testData from '../testData';
 
 const ItemDetailPage: React.FC = () => {
+
+  //global state
+  const { state, dispatch } = useContext(AppContext);
+
+  //local state
+  const item = {
+    codiceArticolo: '',
+    descrizione: '',
+    codForn1: '',
+    codForn2: '',
+    sconto1: '',
+    sconto2: '',
+    prezzoLordo: '',
+    prezzoNetto: '',
+    UMI: '',
+    UMV: '',
+    dispCa: '',
+    fornitoreArticolo: ''
+  };
+
+  const url = `http://45.76.135.175?action=getItemById&codiceArticolo=${state.item.codiceArticolo}&fasciaSconto=${state.client.categoriaSconto}&user=Babis`;
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({});
+  const [itemDetails, setItemDetails] = useState(item);
+
+
+  //get data from API
+  useEffect(() => {
+    const getDataFromAPI = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get(url);
+        setItemDetails(data);
+        setLoading(false);
+      } catch (error: any) {
+        setError(error);
+        setLoading(false);
+        return;
+      }
+    };
+    getDataFromAPI();
+  }, []);
+
+
   return (
     <IonPage>
       <IonHeader>
@@ -38,33 +86,30 @@ const ItemDetailPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-      <IonCard>
+        <IonCard>
           <IonCardHeader>
-            <IonCardSubtitle color="medium">0181190 - 42/2/Z</IonCardSubtitle>
-            <IonCardSubtitle color="dark">BARRA FORATA TONDO D 16X2000 ZIC</IonCardSubtitle>
+            <IonCardSubtitle color="medium">{itemDetails.codiceArticolo} - {itemDetails.codForn1}</IonCardSubtitle>
+            <IonCardSubtitle color="dark">{itemDetails.descrizione}</IonCardSubtitle>
+            <IonCardSubtitle color="medium">{itemDetails.fornitoreArticolo}</IonCardSubtitle>
           </IonCardHeader>
 
           <IonCardContent>
-
-      <IonList>
-        <IonItem>
-          <IonLabel>Giacenza</IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Prezzo lordo</IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Sconti</IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Prezzo netto</IonLabel>
-        </IonItem>
-      </IonList>
-      
-      </IonCardContent>
+              <IonItem>
+                <IonLabel>Disponibili: <IonText color="medium">{itemDetails.dispCa} {itemDetails.UMI}</IonText></IonLabel>
+              </IonItem>
+              <IonItem>
+                <IonLabel>Prezzo lordo:  <IonText color="medium">{itemDetails.prezzoLordo}</IonText></IonLabel>
+              </IonItem>
+              <IonItem>
+                <IonLabel>Sconti:  <IonText color="medium">{itemDetails.sconto1} + {itemDetails.sconto2}</IonText></IonLabel>
+              </IonItem>
+              <IonItem>
+                <IonLabel>Prezzo netto:  <IonText color="medium">{itemDetails.prezzoNetto}</IonText></IonLabel>
+              </IonItem>
+          </IonCardContent>
         </IonCard>
-      <IonButton expand="full"><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton>
-      <IonButton expand="full"><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
+        <IonButton expand="full"><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton>
+        <IonButton expand="full"><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
       </IonContent>
     </IonPage>
   );

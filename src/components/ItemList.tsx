@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import {
   IonList,
   IonItem,
@@ -5,6 +7,8 @@ import {
   IonIcon,
   IonBadge
 } from '@ionic/react';
+
+import { AppContext } from '../State';
 
 import { cardOutline, cardSharp, cart, cartOutline, informationCircle } from 'ionicons/icons';
 
@@ -22,18 +26,31 @@ type Props = {
 
 const ItemList = ({ itemArray }: Props) => {
 
+  //global state
+  const { state, dispatch } = useContext(AppContext);
+
+  //set selected item in global state
+  const selectItem = (item : {codiceArticolo: string | null, descrizione: string | null, codForn1: string | null}) => {
+    dispatch({
+      type: 'setItem',
+      item: {
+        codiceArticolo: item.codiceArticolo,
+      }
+    });
+  };
+
   return (
     <IonList>
       {itemArray.map((item) => (
-          <IonItem routerLink='/ItemDetailPage' key={item.codiceArticolo}>
-            <IonLabel>
-              <IonLabel color="dark"><p>{item.codiceArticolo} - {item.codForn1}</p></IonLabel>
-              <IonLabel color="dark"><h3>{item.descrizione} </h3></IonLabel>
-              <IonLabel color="medium"><p>{item.fornitoreArticolo}</p></IonLabel>
-            </IonLabel>
-            <IonIcon icon={cardOutline} slot="start" />
-            <IonBadge slot="end">{item.dispTot} {item.UMI}</IonBadge>
-          </ IonItem>
+        <IonItem routerLink='/ItemDetailPage' onClick={() => selectItem(item)} key={item.codiceArticolo}>
+          <IonLabel>
+            <IonLabel color="dark"><p>{item.codiceArticolo} - {item.codForn1}</p></IonLabel>
+            <IonLabel color="dark"><h3>{item.descrizione} </h3></IonLabel>
+            <IonLabel color="medium"><p>{item.fornitoreArticolo}</p></IonLabel>
+          </IonLabel>
+          <IonIcon icon={cardOutline} slot="start" />
+          <IonBadge slot="end">{item.dispTot} {item.UMI}</IonBadge>
+        </ IonItem>
       ))}
     </IonList>
   );

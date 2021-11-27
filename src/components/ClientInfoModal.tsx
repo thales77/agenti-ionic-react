@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
   IonList,
   IonItem,
@@ -6,8 +7,13 @@ import {
   IonListHeader
 } from '@ionic/react';
 
+import { AppContext } from '../State';
 
 const ClientInfoModal = () => {
+
+  //global state
+  const { state, dispatch } = useContext(AppContext);
+
 
   return (
     <>
@@ -16,10 +22,10 @@ const ClientInfoModal = () => {
           Anagrafica
         </IonListHeader>
         <IonItem>
-          <IonLabel>Codice - Partita Iva</IonLabel>
+          <IonLabel>{state.client.codice} - {state.client.ragSociale}</IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Ragione sociale</IonLabel>
+          <IonLabel>Partita iva:  {state.client.parIva} </IonLabel>
         </IonItem>
         <IonItem>
           <IonLabel>Indirizzo</IonLabel>

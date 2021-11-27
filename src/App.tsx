@@ -8,6 +8,9 @@ import {
   IonTabButton,
   IonTabs,
 } from '@ionic/react';
+
+import { AppContextProvider } from './State';
+
 import { IonReactRouter } from '@ionic/react-router';
 import { cartOutline, clipboardOutline, swapHorizontalOutline } from 'ionicons/icons';
 import ClientListPage from './pages/ClientListPage';
@@ -39,52 +42,55 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/ClientListPage">
-            <ClientListPage />
-          </Route>
-          <Route exact path="/OrderArchivePage">
-            <OrderArchivePage />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/ClientListPage" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="ClientListPage" href="/ClientListPage">
-            <IonIcon icon={clipboardOutline} />
-            <IonLabel>Clienti</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="OrderArchivePage" href="/OrderArchivePage">
-            <IonIcon icon={swapHorizontalOutline} />
-            <IonLabel>Archivio offerte</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-      <Route exact path="/ClientDetailPage">
-        <ClientDetailPage />
-      </Route>
-      <Route exact path="/ItemDetailPage">
-        <ItemDetailPage />
-      </Route>
-      <Route exact path="/OrderDetailPage">
-        <OrderDetailPage />
-      </Route>
-      <Route exact path="/ClientSalesHistoryPage">
-        <ClientSalesHistoryPage />
-      </Route>
-      <Route exact path="/ClientMajorSalesHistoryPage">
-        <ClientMajorSalesHistoryPage />
-      </Route>
-      <Route exact path="/ItemListPage">
-        <ItemListPage />
-      </Route>
-    </IonReactRouter>
-  </IonApp>
+  <AppContextProvider>
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/ClientListPage">
+              <ClientListPage />
+            </Route>
+            <Route exact path="/OrderArchivePage">
+              <OrderArchivePage />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/ClientListPage" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="ClientListPage" href="/ClientListPage">
+              <IonIcon icon={clipboardOutline} />
+              <IonLabel>Clienti</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="OrderArchivePage" href="/OrderArchivePage">
+              <IonIcon icon={swapHorizontalOutline} />
+              <IonLabel>Archivio offerte</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+        <Route exact path="/ClientDetailPage">
+          <ClientDetailPage />
+        </Route>
+        <Route exact path="/ItemDetailPage">
+          <ItemDetailPage />
+        </Route>
+        <Route exact path="/OrderDetailPage">
+          <OrderDetailPage />
+        </Route>
+        <Route exact path="/ClientSalesHistoryPage">
+          <ClientSalesHistoryPage />
+        </Route>
+        <Route exact path="/ClientMajorSalesHistoryPage">
+          <ClientMajorSalesHistoryPage />
+        </Route>
+        <Route exact path="/ItemListPage">
+          <ItemListPage />
+        </Route>
+      </IonReactRouter>
+    </IonApp>
+  </ AppContextProvider>
 );
 
 export default App;
