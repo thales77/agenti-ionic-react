@@ -21,7 +21,7 @@ import {
   IonText
 } from '@ionic/react';
 
-import axios from 'axios';
+import { Http } from '@capacitor-community/http';
 
 import { AppContext } from '../State';
 
@@ -50,7 +50,12 @@ const ItemDetailPage: React.FC = () => {
     fornitoreArticolo: ''
   };
 
-  const url = `http://45.76.135.175?action=getItemById&codiceArticolo=${state.item.codiceArticolo}&fasciaSconto=${state.client.categoriaSconto}&user=Babis`;
+  const options = {
+    url: `http://45.76.135.175?action=getItemById&codiceArticolo=${state.item.codiceArticolo}&fasciaSconto=${state.client.categoriaSconto}&user=Babis`,
+    headers: { 'Content-Type': 'application/json' },
+    params: {},
+  };
+
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
@@ -62,9 +67,10 @@ const ItemDetailPage: React.FC = () => {
     const getDataFromAPI = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(url);
+        let { status, data } = await Http.request({ ...options, method: 'GET' })
         setItemDetails(data);
         setLoading(false);
+        return;
       } catch (error: any) {
         setError(error);
         setLoading(false);
@@ -73,7 +79,6 @@ const ItemDetailPage: React.FC = () => {
     };
     getDataFromAPI();
   }, []);
-
 
   return (
     <IonPage>
@@ -94,18 +99,18 @@ const ItemDetailPage: React.FC = () => {
           </IonCardHeader>
 
           <IonCardContent>
-              <IonItem>
-                <IonLabel>Disponibili: <IonText color="medium">{itemDetails.dispCa} {itemDetails.UMI}</IonText></IonLabel>
-              </IonItem>
-              <IonItem>
-                <IonLabel>Prezzo lordo:  <IonText color="medium">{itemDetails.prezzoLordo}</IonText></IonLabel>
-              </IonItem>
-              <IonItem>
-                <IonLabel>Sconti:  <IonText color="medium">{itemDetails.sconto1} + {itemDetails.sconto2}</IonText></IonLabel>
-              </IonItem>
-              <IonItem>
-                <IonLabel>Prezzo netto:  <IonText color="medium">{itemDetails.prezzoNetto}</IonText></IonLabel>
-              </IonItem>
+            <IonItem>
+              <IonLabel>Disponibili: <IonText color="medium">{itemDetails.dispCa} {itemDetails.UMI}</IonText></IonLabel>
+            </IonItem>
+            <IonItem>
+              <IonLabel>Prezzo lordo:  <IonText color="medium">{itemDetails.prezzoLordo}</IonText></IonLabel>
+            </IonItem>
+            <IonItem>
+              <IonLabel>Sconti:  <IonText color="medium">{itemDetails.sconto1} + {itemDetails.sconto2}</IonText></IonLabel>
+            </IonItem>
+            <IonItem>
+              <IonLabel>Prezzo netto:  <IonText color="medium">{itemDetails.prezzoNetto}</IonText></IonLabel>
+            </IonItem>
           </IonCardContent>
         </IonCard>
         <IonButton expand="full"><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton>

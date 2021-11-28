@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "3.3.2",
     "@capacitor/app": "1.0.6",
     "@capacitor/core": "3.3.1",
@@ -22,7 +23,6 @@
     "@types/react-dom": "^16.9.10",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
-    "axios": "^0.24.0",
     "call-number": "^1.0.1",
     "ionicons": "^5.5.4",
     "react": "^17.0.1",
