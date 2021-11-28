@@ -56,27 +56,19 @@ const ItemDetailPage: React.FC = () => {
     params: {},
   };
 
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const [itemDetails, setItemDetails] = useState(item);
 
+    //get data from API
+  const getDataFromAPI = async () => {
+    const { data } = await Http.request({ ...options, method: 'GET' });
+    setItemDetails(data);
+    console.log(data)
+  };
 
-  //get data from API
+  //get data on page load
   useEffect(() => {
-    const getDataFromAPI = async () => {
-      setLoading(true);
-      try {
-        let { status, data } = await Http.request({ ...options, method: 'GET' })
-        setItemDetails(data);
-        setLoading(false);
-        return;
-      } catch (error: any) {
-        setError(error);
-        setLoading(false);
-        return;
-      }
-    };
     getDataFromAPI();
   }, []);
 
