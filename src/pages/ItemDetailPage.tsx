@@ -50,8 +50,12 @@ const ItemDetailPage: React.FC = () => {
     fornitoreArticolo: ''
   };
 
+  //see .env
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverPort = process.env.REACT_APP_SERVER_PORT;
+
   const options = {
-    url: `http://45.76.135.175?action=getItemById&codiceArticolo=${state.item.codiceArticolo}&fasciaSconto=${state.client.categoriaSconto}&user=Babis`,
+    url: `http://${serverUrl}:${serverPort}?action=getItemById&codiceArticolo=${state.item.codiceArticolo}&fasciaSconto=${state.client.categoriaSconto}&user=Babis`,
     headers: { 'Content-Type': 'application/json' },
     params: {},
   };
@@ -60,11 +64,17 @@ const ItemDetailPage: React.FC = () => {
   const [error, setError] = useState({});
   const [itemDetails, setItemDetails] = useState(item);
 
-    //get data from API
+  //get data from API
   const getDataFromAPI = async () => {
-    const { data } = await Http.request({ ...options, method: 'GET' });
-    setItemDetails(data);
-    console.log(data)
+    setLoading(true);
+    try {
+      const { data } = await Http.request({ ...options, method: 'GET' })
+      setItemDetails(JSON.parse(data));
+      setLoading(false);
+    } catch (error: any) {
+      setError(error);
+      setLoading(false);
+    }
   };
 
   //get data on page load
