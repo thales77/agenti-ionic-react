@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -13,10 +13,24 @@ import {
   IonInput
 } from '@ionic/react';
 
+import { AppContext } from '../State';
+
 const ClientSearchForm: React.FC = () => {
 
-  const [searchTerm, setsearchTerm] = useState<string>();
+  //global state
+  const { state, dispatch } = useContext(AppContext);
+
+  const [searchTerm, setSearchTerm] = useState<string>();
   const [searchOptions, setSearchOptions] = useState<string[]>(['ragioneSociale']);
+
+
+
+  const handleInput = (searchTerm: string) => {
+    dispatch({
+      type: 'setSearchTerm',
+      search: searchTerm
+    });
+  };
 
   return (
     <>
@@ -30,7 +44,7 @@ const ClientSearchForm: React.FC = () => {
         </IonSelect>
       </IonItem>
       <IonItem>
-        <IonInput value={searchTerm} placeholder={"Cerca cliente... "} onIonChange={e => setsearchTerm(e.detail.value!)}></IonInput>
+        <IonInput value={searchTerm} placeholder={"Cerca cliente... "} onIonChange={e => handleInput(e.detail.value!)}></IonInput>
       </IonItem>
     </>
   );

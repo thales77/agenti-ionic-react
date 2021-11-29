@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   IonItem,
   IonLabel,
@@ -7,10 +7,22 @@ import {
   IonInput
 } from '@ionic/react';
 
+import { AppContext } from '../State';
+
 const ItemSearchForm: React.FC = () => {
+
+  //global state
+  const { state, dispatch } = useContext(AppContext);
 
   const [searchTerm, setsearchTerm] = useState<string>();
   const [searchOptions, setSearchOptions] = useState<string[]>(['descrizione', 'codiceSider']);
+
+  const handleInput = (searchTerm: string) => {
+    dispatch({
+      type: 'setSearchTerm',
+      search: searchTerm
+    });
+  };
 
   return (
     <>
@@ -24,7 +36,7 @@ const ItemSearchForm: React.FC = () => {
         </IonSelect>
       </IonItem>
       <IonItem>
-        <IonInput value={searchTerm} placeholder={"Cerca articolo... "} onIonChange={e => setsearchTerm(e.detail.value!)}></IonInput>
+        <IonInput value={state.search} placeholder={"Cerca articolo... "} onIonChange={e => handleInput(e.detail.value!)}></IonInput>
       </IonItem>
     </>
   );
