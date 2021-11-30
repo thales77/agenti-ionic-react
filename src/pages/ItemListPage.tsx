@@ -3,18 +3,16 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonTitle,
   IonToolbar,
   IonButtons,
   IonBackButton,
-  IonProgressBar
+  IonProgressBar,
+  IonText
 } from '@ionic/react';
 import './ItemListPage.css';
 import ItemSearchForm from '../components/ItemSearchForm';
 import ItemList from '../components/ItemList';
 
-//Temporary data
-import testData from '../testData';
 
 import { Http } from '@capacitor-community/http';
 
@@ -30,26 +28,17 @@ const ItemListPage: React.FC = () => {
   const serverPort = process.env.REACT_APP_SERVER_PORT;
   const apiAction = 'searchItem';
 
-  const defaultItemArray = [{
-    codiceArticolo: null,
-    descrizione: null,
-    codForn1: null,
-    codForn2: null,
-    fornitoreArticolo: null,
-    dispTot: null,
-    UMI: null
-  }]
 
   const [loading, setLoading] = useState<Boolean>(false);
   const [error, setError] = useState<Boolean>(false);
-  const [itemArray, setItemArray] = useState(defaultItemArray);
-  const [searchTerm, setSearchTerm] = useState('ipes');
+  const [itemArray, setItemArray] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [itemSearchOptions, setItemSearchOptions] = useState('["descrizione", "codiceSider"]');
   const [listOffset, setListOffset] = useState(0);
   const [perPage, setPerPage] = useState(50);
 
   const options = {
-    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&searchTerm=${state.search}&itemSearchOptions=${itemSearchOptions}&listOffset=${listOffset}&perPage=${perPage}&fasciaSconto=${state.client.categoriaSconto}&user=${state.user.name}`,
+    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&searchTerm=${searchTerm}&itemSearchOptions=${itemSearchOptions}&listOffset=${listOffset}&perPage=${perPage}&fasciaSconto=${state.client.categoriaSconto}&user=${state.user.name}`,
     headers: { 'Content-Type': 'application/json' },
     params: {},
   };
@@ -68,10 +57,25 @@ const ItemListPage: React.FC = () => {
     setLoading(false);
   };
 
-  //get data on page load
+  //get data
   useEffect(() => {
     getDataFromAPI();
-  }, [state.search]);
+  }, [searchTerm]);
+
+  const handleInput = (searchTerm: string) => {
+
+    //only start api call after 3 characters have been typed
+    if (searchTerm.length > 3) {
+      setSearchTerm(searchTerm);
+    };
+
+    //clear button
+    if (searchTerm.length === 0) {
+      setItemArray([]);
+      setSearchTerm('');
+    };
+  
+  };
 
   return (
     <IonPage>
@@ -80,10 +84,13 @@ const ItemListPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/ClientDetailPage" />
           </IonButtons>
-          <ItemSearchForm />
+          <IonText>Listino {state.client.ragSociale} </IonText>
         </IonToolbar>
+        <IonToolbar>
+          <ItemSearchForm searchTerm={searchTerm} handleInput={handleInput} />
+        </IonToolbar>
+        {loading && <IonProgressBar type="indeterminate"></IonProgressBar>}
       </IonHeader>
-      {loading && <IonProgressBar type="indeterminate"></IonProgressBar>}
       <IonContent fullscreen>
         <ItemList itemArray={itemArray} />
       </IonContent>

@@ -4,8 +4,7 @@ const initialState = {
   user: { id: '999', name: 'Babis', surname: 'Boikos' },
   client: {},
   item: {},
-  cart: {},
-  search: 'ipes'
+  cart: {}
 }
 
 let AppContext = createContext(initialState as any);
@@ -17,9 +16,6 @@ let reducer = (state: any, action: any) => {
     }
     case "setItem": {
       return { ...state, item: action.item }
-    }
-    case "setSearchTerm": {
-      return { ...state, search: action.search }
     }
   }
   return state;
