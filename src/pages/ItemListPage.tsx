@@ -37,44 +37,41 @@ const ItemListPage: React.FC = () => {
   const [listOffset, setListOffset] = useState(0);
   const [perPage, setPerPage] = useState(50);
 
-  const options = {
-    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&searchTerm=${searchTerm}&itemSearchOptions=${itemSearchOptions}&listOffset=${listOffset}&perPage=${perPage}&fasciaSconto=${state.client.categoriaSconto}&user=${state.user.name}`,
-    headers: { 'Content-Type': 'application/json' },
-    params: {},
-  };
-
-  //get data from API
-  const getDataFromAPI = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const { data } = await Http.request({ ...options, method: 'GET' })
-      const response = JSON.parse(data)
-      setItemArray(response.record);
-    } catch (error: any) {
-      setError(true);
-    }
-    setLoading(false);
-  };
-
-  //get data
   useEffect(() => {
-    getDataFromAPI();
+    //get data from API
+    const getDataFromAPI = async () => {
+      const options = {
+        url: `http://${serverUrl}:${serverPort}?action=${apiAction}&searchTerm=${searchTerm}&itemSearchOptions=${itemSearchOptions}&listOffset=${listOffset}&perPage=${perPage}&fasciaSconto=${state.client.categoriaSconto}&user=${state.user.name}`,
+        headers: { 'Content-Type': 'application/json' },
+        params: {},
+      };
+      setLoading(true);
+      setError(false);
+      try {
+        const { data } = await Http.request({ ...options, method: 'GET' })
+        const response = JSON.parse(data)
+        setItemArray(response.record);
+      } catch (error: any) {
+        setError(true);
+      }
+      setLoading(false);
+    };
+
+    if (searchTerm.length > 3) {
+      getDataFromAPI();
+    }
   }, [searchTerm]);
 
   const handleInput = (searchTerm: string) => {
-
+    if (searchTerm.length === 0)
+    {
+      setItemArray([]);
+      setSearchTerm('');
+    }
     //only start api call after 3 characters have been typed
     if (searchTerm.length > 3) {
       setSearchTerm(searchTerm);
     };
-
-    //clear button
-    if (searchTerm.length === 0) {
-      setItemArray([]);
-      setSearchTerm('');
-    };
-  
   };
 
   return (
