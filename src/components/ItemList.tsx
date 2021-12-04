@@ -34,9 +34,7 @@ const ItemList = ({ itemArray }: Props) => {
   const selectItem = (item: { codiceArticolo: string | null, descrizione: string | null, codForn1: string | null }) => {
     dispatch({
       type: 'setItem',
-      item: {
-        codiceArticolo: item.codiceArticolo,
-      }
+      itemId: item.codiceArticolo,
     });
   };
 

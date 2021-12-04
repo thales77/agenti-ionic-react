@@ -38,7 +38,7 @@ const ItemDetailPage: React.FC = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const serverPort = process.env.REACT_APP_SERVER_PORT;
   const apiAction = 'getItemById';
-  
+
   const emptyItem = {
     codiceArticolo: '',
     descrizione: '',
@@ -55,7 +55,7 @@ const ItemDetailPage: React.FC = () => {
   };
 
   const options = {
-    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&codiceArticolo=${state.item.codiceArticolo}&fasciaSconto=${state.client.categoriaSconto}&user=${state.user.name}`,
+    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&codiceArticolo=${state.itemId}&fasciaSconto=${state.client.categoriaSconto}&user=${state.user.name}`,
     headers: { 'Content-Type': 'application/json' },
     params: {},
   };

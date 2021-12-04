@@ -6,7 +6,8 @@ import {
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
-  IonIcon
+  IonIcon,
+  IonText
 } from '@ionic/react';
 
 import { AppContext } from '../State';
@@ -30,7 +31,7 @@ type Props = {
 
 
 const ClientList = ({ clientArray }: Props) => {
-
+  
   //global state
   const { state, dispatch } = useContext(AppContext);
 
@@ -39,7 +40,7 @@ const ClientList = ({ clientArray }: Props) => {
   };
 
   //set selected client in global state
-  const selectClient = (client: {codice: string | null, ragSociale: string | null, parIva: string | null, categoriaSconto: number | null}) => {
+  const selectClient = (client: { codice: string | null, ragSociale: string | null, parIva: string | null, categoriaSconto: number | null }) => {
     dispatch({
       type: 'setClient',
       client: {
@@ -53,23 +54,29 @@ const ClientList = ({ clientArray }: Props) => {
 
   return (
     <IonList>
-      {clientArray.map((client) => (
-        <IonItemSliding key={client.codice}>
-          <IonItem routerLink='/ClientDetailPage' onClick={() => selectClient(client)} >
-            <IonLabel>
-              <IonLabel color="dark"><p>{client.codice}</p></IonLabel>
-              <IonLabel color="dark"><h3>{client.ragSociale} </h3></IonLabel>
-              <IonLabel color="dark"><p>{client.indirizzo}</p></IonLabel>
-              <IonLabel color="medium"><p>{client.cap} {client.comune}</p></IonLabel>
-            </IonLabel>
-            <IonIcon icon={informationCircleOutline} slot="start" />
-          </IonItem>
-          {client.noTelefono ?
-            <IonItemOptions side="start">
-              <IonItemOption color="primary" onClick={() => Call(client.noTelefono)}>Chiama</IonItemOption>
-            </IonItemOptions> : ''}
-        </IonItemSliding>
-      ))}
+      {(clientArray.length > 0) ?
+        clientArray.map((client) => (
+          <IonItemSliding key={client.codice}>
+            <IonItem routerLink='/ClientDetailPage' onClick={() => selectClient(client)} >
+              <IonLabel>
+                <IonLabel color="dark"><p>{client.codice}</p></IonLabel>
+                <IonLabel color="dark"><h3>{client.ragSociale} </h3></IonLabel>
+                <IonLabel color="dark"><p>{client.indirizzo}</p></IonLabel>
+                <IonLabel color="medium"><p>{client.cap} {client.comune}</p></IonLabel>
+              </IonLabel>
+              <IonIcon icon={informationCircleOutline} slot="start" />
+            </IonItem>
+            {client.noTelefono ?
+              <IonItemOptions side="start">
+                <IonItemOption color="primary" onClick={() => Call(client.noTelefono)}>Chiama</IonItemOption>
+              </IonItemOptions> : ''}
+          </IonItemSliding>
+        ))
+        :
+        <IonItem >
+          <IonText>No records</IonText>
+        </ IonItem>
+      }
 
     </IonList>
 

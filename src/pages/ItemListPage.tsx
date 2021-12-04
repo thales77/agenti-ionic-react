@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -39,7 +39,7 @@ const ItemListPage: React.FC = () => {
   const fasciaSconto = state.client.categoriaSconto;
   const user = state.user.name;
   const action = 'searchItem';
-  const itemSearchOptions= JSON.stringify(state.item.searchOptions);
+  const itemSearchOptions= JSON.stringify(state.itemSearchOptions);
 
   const handleInput = (input: string) => {
     if (input === '') {
@@ -67,7 +67,7 @@ const ItemListPage: React.FC = () => {
       }
     }
     setLoading(false);
-  }, [searchTerm]);
+  }, [searchTerm, state.itemSearchOptions]);
 
   return (
     <IonPage>

@@ -1,34 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
   IonItem,
   IonLabel,
   IonSelect,
   IonSelectOption,
-  IonSearchbar,
   IonInput
 } from '@ionic/react';
 
 import { AppContext } from '../State';
 
-const ClientSearchForm: React.FC = () => {
+type Props = {
+  handleInput: (values: any) => void;
+  searchTerm: string;
+};
+
+const ClientSearchForm: React.FC<Props> = ({ handleInput, searchTerm }) => {
 
   //global state
   const { state, dispatch } = useContext(AppContext);
 
-  const [searchTerm, setSearchTerm] = useState<string>();
-  const [searchOptions, setSearchOptions] = useState<string[]>(['ragioneSociale']);
-
-
-
-  const handleInput = (searchTerm: string) => {
+  const handleChange = (options: string[]) => {
     dispatch({
-      type: 'setSearchTerm',
-      search: searchTerm
+      type: 'setClientSearchOptions',
+      clientSearchOptions: options
     });
   };
 
@@ -36,7 +30,7 @@ const ClientSearchForm: React.FC = () => {
     <>
       <IonItem>
         <IonLabel>Ricerca per</IonLabel>
-        <IonSelect multiple={true} value={searchOptions} onIonChange={e => setSearchOptions(e.detail.value)}>
+        <IonSelect multiple={true} value={state.clientSearchOptions} onIonChange={e => handleChange(e.detail.value)}>
           <IonSelectOption value="ragioneSociale">Ragione Sociale</IonSelectOption>
           <IonSelectOption value="codiceCliente">Codice Cliente</IonSelectOption>
           <IonSelectOption value="partitaIva">Partita Iva</IonSelectOption>
@@ -44,7 +38,7 @@ const ClientSearchForm: React.FC = () => {
         </IonSelect>
       </IonItem>
       <IonItem>
-        <IonInput value={searchTerm} placeholder={"Cerca cliente... "} onIonChange={e => handleInput(e.detail.value!)}></IonInput>
+        <IonInput value={searchTerm} placeholder={"Cerca cliente... "} onIonChange={e => handleInput(e.detail.value!)} clearInput></IonInput>
       </IonItem>
     </>
   );

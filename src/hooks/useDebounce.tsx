@@ -1,14 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export const useDebounce = (
-  debounceFunction : any,
-  monitoringVariables: Array<String> = [],
+  debounceFunction: any,
+  monitoringVariables: string[],
   debounceTime: number = 500
 ) => {
+  const initialRender = useRef(true);
+
   useEffect(() => {
-    let timer = setTimeout(debounceFunction, debounceTime);
-    return () => {
-      clearTimeout(timer);
-    };
+    if (initialRender.current) {
+      initialRender.current = false;
+      return () => { };
+    } else {
+      let timer = setTimeout(debounceFunction, debounceTime);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, monitoringVariables);
 };

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
   IonItem,
   IonLabel,
@@ -19,12 +19,10 @@ const ItemSearchForm: React.FC<Props> = ({ handleInput, searchTerm }) => {
   //global state
   const { state, dispatch } = useContext(AppContext);
 
-  const handleChange = (options: Array<String>) => {
+  const handleChange = (options: string[]) => {
     dispatch({
-      type: 'setSearchOptions',
-      item: {
-        searchOptions: options
-      }
+      type: 'setItemSearchOptions',
+      itemSearchOptions: options
     });
   };
 
@@ -32,7 +30,7 @@ const ItemSearchForm: React.FC<Props> = ({ handleInput, searchTerm }) => {
     <>
       <IonItem>
         <IonLabel>Ricerca per</IonLabel>
-        <IonSelect multiple={true} value={state.item.searchOptions} onIonChange={e => handleChange(e.detail.value)}>
+        <IonSelect multiple={true} value={state.itemSearchOptions} onIonChange={e => handleChange(e.detail.value)}>
           <IonSelectOption value="descrizione">Descrizione</IonSelectOption>
           <IonSelectOption value="codiceSider">Codice Interno</IonSelectOption>
           <IonSelectOption value="codiceForn">Codice Fornitore</IonSelectOption>

@@ -3,9 +3,9 @@ import React, { createContext, useReducer } from "react";
 const initialState = {
   user: { id: '999', name: 'Babis', surname: 'Boikos' },
   client: {},
-  item: {
-    searchOptions: ['descrizione', 'codiceSider']
-  },
+  clientSearchOptions: ['ragioneSociale'],
+  itemId: '',
+  itemSearchOptions: ['descrizione', 'codiceSider'],
   cart: {}
 }
 
@@ -16,11 +16,14 @@ let reducer = (state: any, action: any) => {
     case "setClient": {
       return { ...state, client: action.client }
     }
-    case "setItem": {
-      return { ...state, item: action.item }
+    case "setClientSearchOptions": {
+      return { ...state, clientSearchOptions: action.clientSearchOptions }
     }
-    case "setSearchOptions": {
-      return { ...state, item: action.item }
+    case "setItem": {
+      return { ...state, itemId: action.itemId }
+    }
+    case "setItemSearchOptions": {
+      return { ...state, itemSearchOptions: action.itemSearchOptions }
     }
   }
   return state;
