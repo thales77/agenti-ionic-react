@@ -7,7 +7,9 @@ import {
   IonToolbar,
   IonProgressBar,
   IonButtons,
-  IonMenuButton
+  IonButton,
+  IonMenuButton,
+  IonIcon
 } from '@ionic/react';
 import './ClientListPage.css';
 import ClientSearchForm from '../components/ClientSearchForm';
@@ -22,6 +24,8 @@ import { useDebounce } from '../hooks/useDebounce';
 import { Http } from '@capacitor-community/http';
 
 import { AppContext } from '../State';
+
+import { ellipsisVertical } from 'ionicons/icons';
 
 const ClientListPage: React.FC = () => {
 
@@ -77,9 +81,6 @@ const ClientListPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton auto-hide="false"></IonMenuButton>
-          </IonButtons>
           <ClientSearchForm searchTerm={searchTerm} handleInput={handleInput} />
         </IonToolbar>
         {loading && <IonProgressBar type="indeterminate"></IonProgressBar>}

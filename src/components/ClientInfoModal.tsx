@@ -4,7 +4,8 @@ import {
   IonItem,
   IonLabel,
   IonIcon,
-  IonListHeader
+  IonListHeader,
+  IonText
 } from '@ionic/react';
 
 import { AppContext } from '../State';
@@ -13,6 +14,27 @@ const ClientInfoModal = () => {
 
   //global state
   const { state, dispatch } = useContext(AppContext);
+
+  let year = new Date().getFullYear();
+  let statoCliente: string = '';
+
+  switch (state.client.stato) {
+    case 0:
+      statoCliente = 'Attivo'
+      break;
+
+    case -1:
+      statoCliente = 'Contenzioso'
+      break;
+
+    case -2:
+      statoCliente = 'Bloccato'
+      break;
+
+    default:
+      statoCliente = 'Non conosciuto'
+      break;
+  }
 
 
   return (
@@ -25,16 +47,22 @@ const ClientInfoModal = () => {
           <IonLabel>{state.client.codice} - {state.client.ragSociale}</IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Partita iva:  {state.client.parIva} </IonLabel>
+          <IonLabel>Partita iva:  <IonText color="medium">{state.client.parIva} </IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Indirizzo</IonLabel>
+          <IonLabel>Indirizzo: <IonText color="medium">{state.client.indirizzo}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Telefono</IonLabel>
+          <IonLabel><IonText color="medium">{state.client.cap} {state.client.comune} {state.client.provincia}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Email</IonLabel>
+          <IonLabel>Telefono: <IonText color="medium">{state.client.noTelefono}</IonText></IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonLabel>Cell: <IonText color="medium">{state.client.noCell}</IonText></IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonLabel>Email: <IonText color="medium">{state.client.email}</IonText></IonLabel>
         </IonItem>
       </IonList>
       <IonList>
@@ -42,26 +70,26 @@ const ClientInfoModal = () => {
           Informazioni commerciali
         </IonListHeader>
         <IonItem>
-          <IonLabel>Fatturato</IonLabel>
+          <IonLabel>Fatturato {year}:  <IonText color="medium">€{state.client.fattCorrente}</IonText> / {year - 1}: <IonText color="medium">€{state.client.fattPrecedente}</IonText>
+          </IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Scaduto</IonLabel>
+          <IonLabel>Saldo: <IonText color="medium">€{state.client.saldoProfessional}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Categoria di sconto</IonLabel>
+          <IonLabel>Categoria di sconto:  <IonText color="medium">{state.client.categoriaSconto}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Modalita di pagamento</IonLabel>
+          <IonLabel>Pagamento: <IonText color="medium">{state.client.pagamento}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Stato</IonLabel>
+          <IonLabel>Stato: <IonText color="medium">{statoCliente}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Agente</IonLabel>
+          <IonLabel>Agente: <IonText color="medium">{state.client.agente}</IonText></IonLabel>
         </IonItem>
       </IonList>
     </>
-
   );
 };
 
