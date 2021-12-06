@@ -13,16 +13,18 @@ import { AppContext } from '../State';
 
 import { cardOutline, cardSharp, cart, cartOutline, informationCircle } from 'ionicons/icons';
 
+interface Item {
+  codiceArticolo: string | null;
+  descrizione: string | null;
+  codForn1: string | null;
+  codForn2: string | null;
+  fornitoreArticolo: string | null;
+  dispTot: string | null;
+  UMI: string | null;
+};
+
 type Props = {
-  itemArray: {
-    codiceArticolo: string | null;
-    descrizione: string | null;
-    codForn1: string | null;
-    codForn2: string | null;
-    fornitoreArticolo: string | null;
-    dispTot: string | null;
-    UMI: string | null;
-  }[]
+  itemArray: Item[]
 };
 
 const ItemList = ({ itemArray }: Props) => {
@@ -31,10 +33,10 @@ const ItemList = ({ itemArray }: Props) => {
   const { state, dispatch } = useContext(AppContext);
 
   //set selected item in global state
-  const selectItem = (item: { codiceArticolo: string | null, descrizione: string | null, codForn1: string | null }) => {
+  const selectItem = ({ codiceArticolo }: Item) => {
     dispatch({
       type: 'setItem',
-      itemId: item.codiceArticolo,
+      itemId: codiceArticolo,
     });
   };
 

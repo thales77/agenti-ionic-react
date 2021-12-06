@@ -5,8 +5,10 @@ import {
   IonLabel,
   IonIcon,
   IonListHeader,
-  IonText
+  IonText,
+  IonButton
 } from '@ionic/react';
+import { CallNumber } from '@ionic-native/call-number';
 
 import { AppContext } from '../State';
 
@@ -36,6 +38,9 @@ const ClientInfoModal = () => {
       break;
   }
 
+  const Call = (phoneNumber: string | null) => {
+    phoneNumber && CallNumber.callNumber(phoneNumber, true);
+  };
 
   return (
     <>
@@ -56,10 +61,8 @@ const ClientInfoModal = () => {
           <IonLabel><IonText color="medium">{state.client.cap} {state.client.comune} {state.client.provincia}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Telefono: <IonText color="medium">{state.client.noTelefono}</IonText></IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Cell: <IonText color="medium">{state.client.noCell}</IonText></IonLabel>
+          <IonButton fill="outline" onClick={() => Call(state.client.noTelefono)}>Tel.: {state.client.noTelefono}</IonButton>
+          <IonButton fill="outline" onClick={() => Call(state.client.noCell)}>Cell.: {state.client.noCell}</IonButton>
         </IonItem>
         <IonItem>
           <IonLabel>Email: <IonText color="medium">{state.client.email}</IonText></IonLabel>
@@ -77,16 +80,14 @@ const ClientInfoModal = () => {
           <IonLabel>Saldo: <IonText color="medium">€{state.client.saldoProfessional}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Categoria di sconto:  <IonText color="medium">{state.client.categoriaSconto}</IonText></IonLabel>
-        </IonItem>
-        <IonItem>
           <IonLabel>Pagamento: <IonText color="medium">{state.client.pagamento}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Stato: <IonText color="medium">{statoCliente}</IonText></IonLabel>
+          <IonLabel>Agente: <IonText color="medium">{state.client.agente}</IonText></IonLabel>
         </IonItem>
         <IonItem>
-          <IonLabel>Agente: <IonText color="medium">{state.client.agente}</IonText></IonLabel>
+          <IonLabel>Categoria:  <IonText color="medium">{state.client.categoriaSconto}</IonText></IonLabel>
+          <IonLabel>Stato: <IonText color="medium">{statoCliente}</IonText></IonLabel>
         </IonItem>
       </IonList>
     </>

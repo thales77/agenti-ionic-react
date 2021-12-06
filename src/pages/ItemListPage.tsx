@@ -33,8 +33,8 @@ const ItemListPage: React.FC = () => {
   const [error, setError] = useState<Boolean>(false);
   const [itemArray, setItemArray] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [listOffset, setListOffset] = useState(0);
-  const [perPage, setPerPage] = useState(50);
+  const [listOffset, setListOffset] = useState(0); //TODO
+  const [perPage, setPerPage] = useState(50);  //TODO
 
   const fasciaSconto = state.client.categoriaSconto;
   const user = state.user.name;

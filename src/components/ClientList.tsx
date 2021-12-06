@@ -12,34 +12,8 @@ import {
 
 import { AppContext } from '../State';
 
-
 import { CallNumber } from '@ionic-native/call-number';
 import { informationCircleOutline } from 'ionicons/icons';
-
-interface Props {
-  clientArray: {
-    ragSociale: string | null;
-    codice: string | null;
-    parIva: string | null;
-    categoriaSconto: number | null;
-    indirizzo: string | null;
-    indirizziAlt: string | null;
-    cap: string | null;
-    comune: string | null;
-    provincia: string | null;
-    noTelefono: string | null;
-    noCell: string | null;
-    noFax: string | null;
-    email: string | null;
-    categoria: string | null;
-    agente: string | null;
-    fattCorrente: string | null;
-    fattPrecedente: string | null;
-    saldoProfessional: string | null;
-    stato: number | null;
-    pagamento: string | null;
-  }[]
-};
 
 interface Client {
   ragSociale: string | null;
@@ -64,6 +38,9 @@ interface Client {
   pagamento: string | null;
 };
 
+interface Props {
+  clientArray: Client[];
+};
 
 const ClientList = ({ clientArray }: Props) => {
 
@@ -78,28 +55,7 @@ const ClientList = ({ clientArray }: Props) => {
   const handleClick = (client: Client) => {
     dispatch({
       type: 'setClient',
-      client: {
-        ragSociale: client.ragSociale,
-        codice: client.codice,
-        parIva: client.parIva,
-        categoriaSconto: client.categoriaSconto,
-        indirizzo: client.indirizzo,
-        indirizziAlt: client.indirizziAlt,
-        cap: client.cap,
-        comune: client.comune,
-        provincia: client.provincia,
-        noTelefono: client.noTelefono,
-        noCell: client.noCell,
-        noFax: client.noFax,
-        email: client.email,
-        categoria: client.categoria,
-        agente: client.agente,
-        fattCorrente: client.fattCorrente,
-        fattPrecedente: client.fattPrecedente,
-        saldoProfessional: client.saldoProfessional,
-        stato: client.stato,
-        pagamento: client.pagamento,
-      }
+      client: { ...client }
     });
   };
 
