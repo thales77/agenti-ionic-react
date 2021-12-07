@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
   IonList,
   IonItem,
@@ -6,27 +7,41 @@ import {
   IonBadge
 } from '@ionic/react';
 
-import { cardOutline, cardSharp, cart, cartOutline, informationCircle } from 'ionicons/icons';
+import { AppContext } from '../State';
 
-type Props = {
-  salesArray: {
-    dataVendita: string | null;
-    prezzoVendita: string | null;
-    quantitaVendita: string | null;
-    filialeVendita: string | null;
-    codiceArticolo: string | null;
-    DescArt: string | null;
-    prezzoMedio: string | null;
-    valoreReale: string | null;
-  }[]
+import { cartOutline } from 'ionicons/icons';
+
+interface Sale {
+  dataVendita: string | null;
+  prezzoVendita: string | null;
+  quantitaVendita: string | null;
+  filialeVendita: string | null;
+  codiceArticolo: string | null;
+  DescArt: string | null;
+  prezzoMedio: string | null;
+  valoreReale: string | null;
+};
+
+interface Props {
+  salesArray: Sale[]
 };
 
 const SalesHistoryList = ({ salesArray }: Props) => {
 
+  //global state
+  const { state, dispatch } = useContext(AppContext);
+
+  const handleClick = ({ codiceArticolo }: Sale) => {
+    dispatch({
+      action: 'setItem',
+      itemId: codiceArticolo
+    })
+  };
+
   return (
     <IonList>
       {salesArray.map((sale) => (
-        <IonItem routerLink='/ItemDetailPage' key={sale.codiceArticolo}>
+        <IonItem routerLink='/ItemDetailPage' key={sale.codiceArticolo} onClick={() => handleClick(sale)}>
           <IonLabel>
             <IonLabel ><p>{sale.codiceArticolo}</p></IonLabel>
             <IonLabel color="dark"><p> {sale.DescArt}</p></IonLabel>
