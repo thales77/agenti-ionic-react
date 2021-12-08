@@ -89,7 +89,7 @@ const ClientDetailPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
-        <IonModal isOpen={showModal} cssClass='my-custom-class'>
+        <IonModal isOpen={showModal} >
           <ClientInfoModal />
           <IonButton onClick={() => setShowModal(false)}>Chiudi</IonButton>
         </IonModal>

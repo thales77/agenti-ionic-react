@@ -22,11 +22,11 @@ const OrderSearchForm: React.FC = () => {
       <IonItem>
         <IonLabel>Ordini inseriti dal</IonLabel>
         <IonDatetime
-          displayFormat="DD MMM YYYY"
-          pickerFormat="DD MMM YYYY"
+          //displayFormat="DD MMM YYYY"
+          //pickerFormat="DD MMM YYYY"
           placeholder="Data inizio"
-          monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
-          dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
+          //monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
+          //dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
           cancelText="Annulla"
           doneText="Ok"
           value={startDate} onIonChange={e => setStartDate(e.detail.value!)}
@@ -36,11 +36,11 @@ const OrderSearchForm: React.FC = () => {
       <IonItem>
         <IonLabel>al</IonLabel>
         <IonDatetime
-          displayFormat="DD MMM YYYY"
-          pickerFormat="DD MMM YYYY"
+          //displayFormat="DD MMM YYYY"
+          //pickerFormat="DD MMM YYYY"
           placeholder="Data fine"
-          monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
-          dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
+          //monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
+          //dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
           cancelText="Annulla"
           doneText="Ok"
           value={endDate} onIonChange={e => setEndDate(e.detail.value!)}

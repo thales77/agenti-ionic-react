@@ -1,5 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import {
+  setupIonicReact,
+  isPlatform,
   IonApp,
   IonIcon,
   IonLabel,
@@ -12,7 +14,7 @@ import {
 import { AppContextProvider } from './State';
 
 import { IonReactRouter } from '@ionic/react-router';
-import { cartOutline, clipboardOutline, swapHorizontalOutline } from 'ionicons/icons';
+import { clipboardOutline, swapHorizontalOutline } from 'ionicons/icons';
 import ClientListPage from './pages/ClientListPage';
 import ItemListPage from './pages/ItemListPage';
 import ClientDetailPage from './pages/ClientDetailPage';
@@ -42,6 +44,22 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+//Global Config​
+const getConfig = () => {
+  
+  let config: any = {
+    mode: 'md',
+  };
+
+  /*if (isPlatform('iphone')) {
+    config = {
+      ...config,
+      backButtonText: 'Previous',
+    };
+  }*/
+  return config;
+};
+setupIonicReact(getConfig());
 
 const App: React.FC = () => (
   <AppContextProvider>
