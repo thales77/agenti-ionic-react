@@ -26,7 +26,7 @@ interface Props {
   salesArray: Sale[]
 };
 
-const SalesHistoryList = ({ salesArray }: Props) => {
+const MajorSalesHistoryList = ({ salesArray }: Props) => {
 
   //global state
   const { state, dispatch } = useContext(AppContext);
@@ -44,18 +44,18 @@ const SalesHistoryList = ({ salesArray }: Props) => {
       {salesArray.map((sale) => (
         <IonItem routerLink='/ItemDetailPage' onClick={() => handleClick(sale)}  key={sale.codiceArticolo}>
           <IonLabel>
-            <IonLabel ><p>{sale.dataVendita}</p></IonLabel>
             <IonLabel ><p>{sale.codiceArticolo}</p></IonLabel>
             <IonLabel color="dark"><p> {sale.DescArt}</p></IonLabel>
-            <IonLabel color="dark"><p>Prezzo €{sale.prezzoVendita}</p></IonLabel>
-            <IonLabel color="dark"><h3>Quantità {sale.quantitaVendita} </h3></IonLabel>
+            <IonLabel color="dark"><p>Quantità {sale.quantitaVendita} </p></IonLabel>
+            <IonLabel color="dark"><p>Prezzo medio €{sale.prezzoMedio}</p></IonLabel>
+            <IonLabel color="dark"><p>Totale acquisti €{sale.valoreReale}</p></IonLabel>
           </IonLabel>
           <IonIcon icon={cartOutline} slot="start" />
-          {/* <IonBadge slot="end">€ {sale.prezzoVendita} </IonBadge> */}
+          {/* <IonBadge slot="end">€ {sale.prezzoMedio} </IonBadge> */}
         </ IonItem>
       ))}
     </IonList>
   );
 };
 
-export default SalesHistoryList;
+export default MajorSalesHistoryList;

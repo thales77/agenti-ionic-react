@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -6,29 +6,80 @@ import {
   IonTitle,
   IonToolbar,
   IonButtons,
-  IonBackButton
+  IonBackButton,
+  IonText,
+  IonItem,
+  IonProgressBar
 } from '@ionic/react';
-import './ClientSalesHistoryPage.css';
-import SalesHistoryList from '../components/SalesHistoryList';
+
+import { Http } from '@capacitor-community/http';
+
+import './ClientMajorSalesHistoryPage.css';
+import MajorSalesHistoryList from '../components/MajorSalesHistoryList';
 
 //test data
-import testData from '../testData';
+//import testData from '../testData';
+import { AppContext } from '../State';
+
 
 const ClientMajorSalesHistoryPage: React.FC = () => {
+
+  //global state
+  const { state, dispatch } = useContext(AppContext);
+  //see .env
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverPort = process.env.REACT_APP_SERVER_PORT;
+
+  //local state
+  const [loading, setLoading] = useState<Boolean>(false);
+  const [error, setError] = useState<Boolean>(false);
+  const [salesArray, setSalesArray] = useState([]);
+  const [listOffset, setListOffset] = useState(0);
+  const [perPage, setPerPage] = useState(50);
+
+  const user = state.user.name;
+  const action = 'aqcuistiMaggiori';
+
+
+  useEffect(() => {
+    const getData = async () => {
+      const options = {
+        url: `http://${serverUrl}:${serverPort}?action=${action}&clientId=${state.client.codice}&listOffset=${listOffset}&perPage=${perPage}&user=${user}`,
+        headers: { 'Content-Type': 'application/json' },
+        params: {},
+      };
+
+      setLoading(true);
+      setError(false);
+      try {
+        const { data } = await Http.request({ ...options, method: 'GET' })
+        const response = JSON.parse(data)
+        setSalesArray(response.record);
+      } catch (error: any) {
+        setError(true);
+      }
+      setLoading(false);
+    };
+    getData();
+  }, []);
+
   return (
     <IonPage>
-    <IonHeader>
-      <IonToolbar>
-        <IonButtons slot="start">
-          <IonBackButton defaultHref="/ClientDetailPage" />
-        </IonButtons>
-        <IonTitle>Spese più importanti</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent fullscreen>
-      <SalesHistoryList salesArray={testData.salesHistory} />
-    </IonContent>
-  </IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/ClientDetailPage" />
+          </IonButtons>
+          <IonTitle>Acquisti Maggiori</IonTitle>
+        </IonToolbar>
+        {loading && <IonProgressBar type="indeterminate"></IonProgressBar>}
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonItem>
+          {error ? <IonText color="danger">Errore recupero dati</IonText> : <MajorSalesHistoryList salesArray={salesArray} />}
+        </IonItem>
+      </IonContent>
+    </IonPage>
   );
 };
 

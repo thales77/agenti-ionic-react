@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from "react";
 const initialState = {
   user: { id: '999', name: 'Babis', surname: 'Boikos' },
   client: {},
-  clientSearchOptions: ['ragioneSociale'],
+  clientSearchOptions: ['ragioneSociale', 'codiceCliente'],
   itemId: '',
   itemSearchOptions: ['descrizione', 'codiceSider'],
   cart: {}

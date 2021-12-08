@@ -7,7 +7,9 @@ import {
   IonToolbar,
   IonButtons,
   IonBackButton,
-  IonText
+  IonText,
+  IonItem,
+  IonProgressBar
 } from '@ionic/react';
 
 import { Http } from '@capacitor-community/http';
@@ -70,9 +72,12 @@ const ClientSalesHistoryPage: React.FC = () => {
           </IonButtons>
           <IonTitle>Storico Acquisti</IonTitle>
         </IonToolbar>
+        {loading && <IonProgressBar type="indeterminate"></IonProgressBar>}
       </IonHeader>
       <IonContent fullscreen>
-      {error ? <IonText color="warning">Errore </IonText> : <SalesHistoryList salesArray={salesArray} /> }
+        <IonItem>
+          {error ? <IonText color="danger">Errore recupero dati</IonText> : <SalesHistoryList salesArray={salesArray} />}
+        </IonItem>
       </IonContent>
     </IonPage>
   );
