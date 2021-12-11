@@ -19,12 +19,8 @@ const OrderArchivePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-        <IonButtons slot="start">
-          <IonMenuButton auto-hide="false"></IonMenuButton>
-        </IonButtons>
-        <OrderSearchForm />
+          <OrderSearchForm />
         </IonToolbar>
-
       </IonHeader>
       <IonContent fullscreen>
         <OrderList orderArray={testData.orders} />

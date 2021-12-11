@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import {
   IonItem,
   IonLabel,
-  IonDatetime
+  IonDatetime,
+  IonText,
+  IonPopover
 } from '@ionic/react';
 
 const OrderSearchForm: React.FC = () => {
 
   let today = new Date();
-  let defaultEndDate = today.toISOString(); 
-  
+  let defaultEndDate = today.toISOString();
+
   let lastMonth = new Date(today.setMonth(today.getMonth() - 1))
   let defaultStartDate = lastMonth.toISOString();
 
@@ -19,33 +21,35 @@ const OrderSearchForm: React.FC = () => {
 
   return (
     <>
-      <IonItem>
-        <IonLabel>Ordini inseriti dal</IonLabel>
-        <IonDatetime
-          //displayFormat="DD MMM YYYY"
-          //pickerFormat="DD MMM YYYY"
-          placeholder="Data inizio"
-          //monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
-          //dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
-          cancelText="Annulla"
-          doneText="Ok"
-          value={startDate} onIonChange={e => setStartDate(e.detail.value!)}
-        >
-        </IonDatetime>
+      {/* Datetime in popover with cover element */}
+      <IonItem button={true} id="open-date-from-input">
+        <IonLabel>Data inizio</IonLabel>
+        <IonText slot="end">{startDate}</IonText>
+        <IonPopover trigger="open-date-from-input" showBackdrop={true}>
+          <IonDatetime
+            presentation="date"
+            show-default-buttons
+            cancel-text="Annulla"
+            done-text="Ok"
+            max={endDate}
+            onIonChange={e => setStartDate((e.detail.value!))}
+          />
+        </IonPopover>
       </IonItem>
-      <IonItem>
-        <IonLabel>al</IonLabel>
-        <IonDatetime
-          //displayFormat="DD MMM YYYY"
-          //pickerFormat="DD MMM YYYY"
-          placeholder="Data fine"
-          //monthShortNames="gen, feb, mar, apr, mag, jun, jul, ago, set, ott, nov, dic"
-          //dayShortNames="Lun, Mar, Mer, Gio, Ven, Sab, Dom"
-          cancelText="Annulla"
-          doneText="Ok"
-          value={endDate} onIonChange={e => setEndDate(e.detail.value!)}
-        >
-        </IonDatetime>
+      {/* Datetime in popover with cover element */}
+      <IonItem button={true} id="open-date-to-input">
+        <IonLabel>Data fine</IonLabel>
+        <IonText slot="end">{endDate}</IonText>
+        <IonPopover trigger="open-date-to-input" showBackdrop={true}>
+          <IonDatetime
+            presentation="date"
+            show-default-buttons
+            cancel-text="Annulla"
+            done-text="Ok"
+            min={startDate}
+            onIonChange={e => setEndDate((e.detail.value!))} 
+          />
+        </IonPopover>
       </IonItem>
     </>
   );
