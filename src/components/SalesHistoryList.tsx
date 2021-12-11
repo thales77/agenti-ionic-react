@@ -32,7 +32,6 @@ const SalesHistoryList = ({ salesArray }: Props) => {
   const { state, dispatch } = useContext(AppContext);
 
   const handleClick = ({ codiceArticolo }: Sale) => {
-    console.log(codiceArticolo)
     dispatch({
       type: 'setItem',
       itemId: codiceArticolo

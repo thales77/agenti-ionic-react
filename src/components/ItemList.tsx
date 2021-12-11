@@ -23,7 +23,7 @@ interface Item {
   UMI: string | null;
 };
 
-type Props = {
+interface Props {
   itemArray: Item[]
 };
 

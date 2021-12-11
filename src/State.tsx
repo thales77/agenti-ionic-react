@@ -6,6 +6,8 @@ const initialState = {
   clientSearchOptions: ['ragioneSociale', 'codiceCliente'],
   itemId: '',
   itemSearchOptions: ['descrizione', 'codiceSider'],
+  orderId: '',
+  orderSearchOptions: { dateFrom: '', dateTo: '' },
   cart: {}
 }
 
@@ -24,6 +26,12 @@ let reducer = (state: any, action: any) => {
     }
     case "setItemSearchOptions": {
       return { ...state, itemSearchOptions: action.itemSearchOptions }
+    }
+    case "setOrder": {
+      return { ...state, orderId: action.orderId }
+    }
+    case "setOrderSearchOptions": {
+      return { ...state, orderSearchOptions: action.orderSearchOptions }
     }
   }
   return state;
