@@ -31,7 +31,7 @@ const OrderArchivePage: React.FC = () => {
   const [error, setError] = useState<Boolean>(false);
   const [orderArray, setOrderArray] = useState([]);
   const [listOffset, setListOffset] = useState(0);
-  const [perPage, setPerPage] = useState(50);
+  const [perPage, setPerPage] = useState(10);
 
   const user = state.user.name;
   const action = 'getOrderList';
@@ -42,7 +42,7 @@ const OrderArchivePage: React.FC = () => {
   useEffect(() => {
     const getData = async () => {
       const options = {
-        url: `http://${serverUrl}:${serverPort}?action=${action}&datefrom=${dateFrom}&dateto=${dateTo}&idAgente=${idAgente}&listOffset=${listOffset}&perPage=${perPage}&user=${user}`,
+        url: `http://${serverUrl}:${serverPort}?action=${action}&datefrom=${dateFrom}&dateto=${dateTo}&idAgente=${idAgente}&user=${user}&listOffset=${listOffset}&perPage=${perPage}`,
         headers: { 'Content-Type': 'application/json' },
         params: {},
       };
@@ -52,7 +52,7 @@ const OrderArchivePage: React.FC = () => {
       try {
         const { data } = await Http.request({ ...options, method: 'GET' })
         const response = JSON.parse(data)
-        setOrderArray(response.record);
+        setOrderArray(response);
       } catch (error: any) {
         setError(true);
       }
