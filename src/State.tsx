@@ -1,5 +1,11 @@
 import React, { createContext, useReducer } from "react";
 
+const today = new Date();
+const endDate = today.toISOString();
+
+const lastMonth = new Date(today.setMonth(today.getMonth(),  0)); //last day of last month
+const  startDate = lastMonth.toISOString();
+
 const initialState = {
   user: { id: '999', name: 'Babis', surname: 'Boikos' },
   client: {},
@@ -7,7 +13,7 @@ const initialState = {
   itemId: '',
   itemSearchOptions: ['descrizione', 'codiceSider'],
   orderId: '',
-  orderSearchOptions: { dateFrom: '', dateTo: '' },
+  orderSearchOptions: { startDate, endDate },
   cart: {}
 }
 
