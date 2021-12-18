@@ -14,7 +14,7 @@ const initialState = {
   itemSearchOptions: ['descrizione', 'codiceSider'],
   orderId: '',
   orderSearchOptions: { startDate, endDate },
-  cart: {}
+  cart: []
 }
 
 let AppContext = createContext(initialState as any);

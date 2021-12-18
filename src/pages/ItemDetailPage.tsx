@@ -18,7 +18,8 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonCardContent,
-  IonText
+  IonText,
+  IonModal
 } from '@ionic/react';
 
 import { Http } from '@capacitor-community/http';
@@ -27,6 +28,8 @@ import { AppContext } from '../State';
 
 import './ItemDetailPage.css';
 import { cartOutline, timer } from 'ionicons/icons';
+
+import CartModal from '../components/CartModal';
 
 
 const ItemDetailPage: React.FC = () => {
@@ -64,6 +67,7 @@ const ItemDetailPage: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(false);
   const [error, setError] = useState<Boolean>(false);
   const [itemDetails, setItemDetails] = useState<any>(emptyItem);
+  const [showModal, setShowModal] = useState(false);
 
   //get data from API
   const getDataFromAPI = async () => {
@@ -121,8 +125,23 @@ const ItemDetailPage: React.FC = () => {
             </IonCardContent>
           }
         </IonCard>
-        <IonButton expand="full"><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton>
+        <br />
+        <IonModal isOpen={showModal}>
+          <CartModal
+            itemId={itemDetails.codiceArticolo}
+            itemDescription={itemDetails.descrizione}
+            price={parseFloat(itemDetails.prezzoNetto.replace(",", "."))}
+            um={itemDetails.UMI}
+          />
+          <br />
+          <IonButton expand="full" onClick={() => setShowModal(false)}>Aggiungi</IonButton><br />
+          <IonButton expand="full" onClick={() => setShowModal(false)}>Annulla</IonButton>
+        </IonModal>
+
+        <IonButton expand="full" onClick={() => setShowModal(true)}><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton><br />
+
         <IonButton expand="full"><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
+
       </IonContent>
     </IonPage>
   );
