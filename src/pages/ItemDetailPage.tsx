@@ -132,6 +132,7 @@ const ItemDetailPage: React.FC = () => {
             itemDescription={itemDetails.descrizione}
             price={parseFloat(itemDetails.prezzoNetto.replace(",", "."))}
             um={itemDetails.UMI}
+            available={itemDetails.dispCa}
           />
           <br />
           <IonButton expand="full" onClick={() => setShowModal(false)}>Aggiungi</IonButton><br />

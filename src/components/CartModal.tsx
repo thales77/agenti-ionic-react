@@ -19,9 +19,10 @@ interface Props {
     itemDescription: string;
     price: number;
     um: string;
+    available: number;
 };
 
-const CartModal = ({ itemId, itemDescription, price, um }: Props) => {
+const CartModal = ({ itemId, itemDescription, price, um, available }: Props) => {
 
     //global state
     const { state, dispatch } = useContext(AppContext);
