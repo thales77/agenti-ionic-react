@@ -126,23 +126,17 @@ const ItemDetailPage: React.FC = () => {
           }
         </IonCard>
         <br />
-        <IonModal isOpen={showModal}>
-          <CartModal
+        <CartModal
             itemId={itemDetails.codiceArticolo}
             itemDescription={itemDetails.descrizione}
             price={parseFloat(itemDetails.prezzoNetto.replace(",", "."))}
             um={itemDetails.UMI}
             available={itemDetails.dispCa}
+            setShowModal={setShowModal}
+            showModal={showModal}
           />
-          <br />
-          <IonButton expand="full" onClick={() => setShowModal(false)}>Aggiungi</IonButton><br />
-          <IonButton expand="full" onClick={() => setShowModal(false)}>Annulla</IonButton>
-        </IonModal>
-
         <IonButton expand="full" onClick={() => setShowModal(true)}><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton><br />
-
         <IonButton expand="full"><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
-
       </IonContent>
     </IonPage>
   );

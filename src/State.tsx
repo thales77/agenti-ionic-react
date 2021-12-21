@@ -3,8 +3,8 @@ import React, { createContext, useReducer } from "react";
 const today = new Date();
 const endDate = today.toISOString();
 
-const lastMonth = new Date(today.setMonth(today.getMonth(),  0)); //last day of last month
-const  startDate = lastMonth.toISOString();
+const lastMonth = new Date(today.setMonth(today.getMonth(), 0)); //last day of last month
+const startDate = lastMonth.toISOString();
 
 const initialState = {
   user: { id: '999', name: 'Babis', surname: 'Boikos' },
@@ -38,6 +38,15 @@ let reducer = (state: any, action: any) => {
     }
     case "setOrderSearchOptions": {
       return { ...state, orderSearchOptions: action.orderSearchOptions }
+    }
+    case "addItemToCart": {
+      return { ...state, cart: [...state.cart, action.item] }
+    }
+    case "deleteItemFromCart": {
+      return { ...state, cart: action.orderSearchOptions }
+    }
+    case "updateItemInCart": {
+      return { ...state, cart: action.orderSearchOptions }
     }
   }
   return state;
