@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 export const useDebounce = (
   debounceFunction: any,
   monitoringVariables: string[],
-  debounceTime: number = 1000
+  debounceTime: number = 800
 ) => {
   const initialRender = useRef(true);
 
