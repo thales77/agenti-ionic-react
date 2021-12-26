@@ -23,6 +23,7 @@ import './ClientDetailPage.css';
 
 import { calculatorOutline, calendar, cartOutline, cash, folderOpen, timer } from 'ionicons/icons';
 import ClientInfoModal from '../components/ClientInfoModal';
+import CartListModal from '../components/CartListModal';
 
 const ClientDetailPage: React.FC = () => {
 
@@ -30,7 +31,8 @@ const ClientDetailPage: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
 
   //local state
-  const [showModal, setShowModal] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showCartModal, setShowCartModal] = useState(false);
 
   return (
     <IonPage>
@@ -45,7 +47,7 @@ const ClientDetailPage: React.FC = () => {
       <IonContent fullscreen>
         <IonGrid>
           <IonRow>
-            <IonCol><IonButton expand="full" onClick={() => setShowModal(true)}>
+            <IonCol><IonButton expand="full" onClick={() => setShowInfoModal(true)}>
               <IonIcon slot="start" icon={folderOpen} />
               Scheda anagrafica
             </IonButton>
@@ -75,7 +77,7 @@ const ClientDetailPage: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton expand="full">
+            <IonCol><IonButton expand="full" onClick={() => setShowCartModal(true)}>
               <IonIcon slot="start" icon={cartOutline} />
               Carrello
             </IonButton>
@@ -89,10 +91,8 @@ const ClientDetailPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
-        <IonModal isOpen={showModal} >
-          <ClientInfoModal />
-          <IonButton onClick={() => setShowModal(false)}>Chiudi</IonButton>
-        </IonModal>
+        <ClientInfoModal setShowInfoModal={setShowInfoModal} showInfoModal={showInfoModal} />
+        <CartListModal setShowCartModal={setShowCartModal} showCartModal={showCartModal} />
       </IonContent>
     </IonPage>
   );

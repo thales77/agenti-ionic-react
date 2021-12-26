@@ -43,10 +43,10 @@ let reducer = (state: any, action: any) => {
       return { ...state, cart: [...state.cart, action.item] }
     }
     case "deleteItemFromCart": {
-      return { ...state, cart: action.orderSearchOptions }
+      return { ...state, cart: [...state.cart, action.item] } //TODO
     }
     case "updateItemInCart": {
-      return { ...state, cart: action.orderSearchOptions }
+      return { ...state, cart: [...state.cart, action.item] } //TODO
     }
   }
   return state;

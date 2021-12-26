@@ -29,7 +29,7 @@ import { AppContext } from '../State';
 import './ItemDetailPage.css';
 import { cartOutline, timer } from 'ionicons/icons';
 
-import CartModal from '../components/CartModal';
+import AddToCartModal from '../components/AddToCartModal';
 
 
 const ItemDetailPage: React.FC = () => {
@@ -126,7 +126,7 @@ const ItemDetailPage: React.FC = () => {
           }
         </IonCard>
         <br />
-        <CartModal
+        <AddToCartModal
             itemId={itemDetails.codiceArticolo}
             itemDescription={itemDetails.descrizione}
             price={parseFloat(itemDetails.prezzoNetto.replace(",", "."))}

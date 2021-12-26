@@ -15,6 +15,7 @@ import {
 
 import { AppContext } from '../State';
 import { settingsOutline } from 'ionicons/icons';
+import { v4 as uuid } from 'uuid';
 
 interface Props {
     itemId: string;
@@ -26,7 +27,7 @@ interface Props {
     showModal: boolean;
 };
 
-const CartModal = ({ itemId, itemDescription, price, um, available, setShowModal, showModal }: Props) => {
+const AddToCartModal = ({ itemId, itemDescription, price, um, available, setShowModal, showModal }: Props) => {
 
     //global state
     const { state, dispatch } = useContext(AppContext);
@@ -35,6 +36,8 @@ const CartModal = ({ itemId, itemDescription, price, um, available, setShowModal
     const [quantity, setQuantity] = useState<number>(0);
     const [notes, setNotes] = useState<string>('');
 
+    const unique_id = uuid();
+
     const handleQuantityInput = (quantity: number) => {
 
         if (!quantity) {
@@ -42,7 +45,7 @@ const CartModal = ({ itemId, itemDescription, price, um, available, setShowModal
             return;
         }
 
-        setTotal(quantity * price);
+        setTotal(+(quantity * price).toFixed(2));
         setQuantity(quantity);
 
     };
@@ -59,6 +62,7 @@ const CartModal = ({ itemId, itemDescription, price, um, available, setShowModal
         dispatch({
             type: 'addItemToCart',
             item: {
+                unique_id,
                 itemId,
                 itemDescription,
                 price,
@@ -68,6 +72,7 @@ const CartModal = ({ itemId, itemDescription, price, um, available, setShowModal
                 notes
             }
         });
+        setShowModal(false);
     };
 
     return (
@@ -100,4 +105,4 @@ const CartModal = ({ itemId, itemDescription, price, um, available, setShowModal
     );
 };
 
-export default CartModal;
+export default AddToCartModal;
