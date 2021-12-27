@@ -23,6 +23,7 @@ import OrderArchivePage from './pages/OrderArchivePage';
 import OrderDetailPage from './pages/OrderDetailPage';
 import ClientSalesHistoryPage from './pages/ClientSalesHistoryPage';
 import ClientMajorSalesHistoryPage from './pages/ClientMajorSalesHistoryPage';
+import CartListPage from './pages/CartListPage';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -46,7 +47,7 @@ import './theme/variables.css';
 
 //Global Config​
 const getConfig = () => {
-  
+
   let config: any = {
     mode: 'md',
   };
@@ -105,6 +106,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/ItemListPage">
           <ItemListPage />
+        </Route>
+        <Route exact path="/CartListPage">
+          <CartListPage />
         </Route>
       </IonReactRouter>
     </IonApp>

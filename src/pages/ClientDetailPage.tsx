@@ -23,7 +23,7 @@ import './ClientDetailPage.css';
 
 import { calculatorOutline, calendar, cartOutline, cash, folderOpen, timer } from 'ionicons/icons';
 import ClientInfoModal from '../components/ClientInfoModal';
-import CartListModal from '../components/CartListModal';
+import CartListModal from './CartListPage';
 
 const ClientDetailPage: React.FC = () => {
 
@@ -32,7 +32,6 @@ const ClientDetailPage: React.FC = () => {
 
   //local state
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [showCartModal, setShowCartModal] = useState(false);
 
   return (
     <IonPage>
@@ -77,7 +76,7 @@ const ClientDetailPage: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol><IonButton expand="full" onClick={() => setShowCartModal(true)}>
+            <IonCol><IonButton routerLink='/CartListPage' expand="full">
               <IonIcon slot="start" icon={cartOutline} />
               Carrello
             </IonButton>
@@ -92,7 +91,6 @@ const ClientDetailPage: React.FC = () => {
           </IonRow>
         </IonGrid>
         <ClientInfoModal setShowInfoModal={setShowInfoModal} showInfoModal={showInfoModal} />
-        <CartListModal setShowCartModal={setShowCartModal} showCartModal={showCartModal} />
       </IonContent>
     </IonPage>
   );
