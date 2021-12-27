@@ -14,16 +14,16 @@ import {
   IonIcon,
   IonModal,
   IonItem,
-  IonText
+  IonText,
+  IonBadge
 } from '@ionic/react';
 
 import { AppContext } from '../State';
 
 import './ClientDetailPage.css';
 
-import { calculatorOutline, calendar, cartOutline, cash, folderOpen, timer } from 'ionicons/icons';
+import { calculatorOutline, calendar, cart, cartOutline, cash, folderOpen, timer } from 'ionicons/icons';
 import ClientInfoModal from '../components/ClientInfoModal';
-import CartListModal from './CartListPage';
 
 const ClientDetailPage: React.FC = () => {
 
@@ -32,6 +32,7 @@ const ClientDetailPage: React.FC = () => {
 
   //local state
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const cartBadge = state.cart.length;
 
   return (
     <IonPage>
@@ -40,7 +41,13 @@ const ClientDetailPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/ClientListPage" />
           </IonButtons>
-          <IonText>{state.selectedClient.codice} - {state.selectedClient.ragSociale}</IonText>
+          <IonButtons slot="end">
+            <IonButton routerLink='/CartListPage'>
+              {cartBadge > 0 ? <IonIcon slot="start" icon={cart} /> : <IonIcon slot="start" icon={cartOutline} />}
+              {cartBadge > 0 ? <IonBadge color="primary">{cartBadge}</IonBadge> : ''}
+            </IonButton>
+          </IonButtons>
+          <IonText>{state.selectedClient.ragSociale}</IonText>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -72,13 +79,6 @@ const ClientDetailPage: React.FC = () => {
             <IonCol><IonButton routerLink='/ItemListPage' expand="full">
               <IonIcon slot="start" icon={calculatorOutline} />
               Listino
-            </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol><IonButton routerLink='/CartListPage' expand="full">
-              <IonIcon slot="start" icon={cartOutline} />
-              Carrello
             </IonButton>
             </IonCol>
           </IonRow>

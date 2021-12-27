@@ -19,7 +19,8 @@ import {
   IonCardTitle,
   IonCardContent,
   IonText,
-  IonModal
+  IonModal,
+  IonBadge
 } from '@ionic/react';
 
 import { Http } from '@capacitor-community/http';
@@ -27,7 +28,7 @@ import { Http } from '@capacitor-community/http';
 import { AppContext } from '../State';
 
 import './ItemDetailPage.css';
-import { cartOutline, timer } from 'ionicons/icons';
+import { cartOutline, timer, cart } from 'ionicons/icons';
 
 import AddToCartModal from '../components/AddToCartModal';
 
@@ -69,6 +70,8 @@ const ItemDetailPage: React.FC = () => {
   const [itemDetails, setItemDetails] = useState<any>(emptyItem);
   const [showModal, setShowModal] = useState(false);
 
+  const cartBadge = state.cart.length;
+
   //get data from API
   const getDataFromAPI = async () => {
     setLoading(true);
@@ -95,6 +98,12 @@ const ItemDetailPage: React.FC = () => {
             <IonBackButton defaultHref="/ItemListPage" />
           </IonButtons>
           <IonTitle>Dettaglio</IonTitle>
+          <IonButtons slot="end">
+            <IonButton routerLink='/CartListPage'>
+            {cartBadge > 0 ? <IonIcon slot="start" icon={cart} /> : <IonIcon slot="start" icon={cartOutline} />}
+              {cartBadge > 0 ? <IonBadge color="primary">{cartBadge}</IonBadge> : ''}
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -127,14 +136,14 @@ const ItemDetailPage: React.FC = () => {
         </IonCard>
         <br />
         <AddToCartModal
-            itemId={itemDetails.codiceArticolo}
-            itemDescription={itemDetails.descrizione}
-            price={parseFloat(itemDetails.prezzoNetto.replace(",", "."))}
-            um={itemDetails.UMI}
-            available={itemDetails.dispCa}
-            setShowModal={setShowModal}
-            showModal={showModal}
-          />
+          itemId={itemDetails.codiceArticolo}
+          itemDescription={itemDetails.descrizione}
+          price={parseFloat(itemDetails.prezzoNetto.replace(",", "."))}
+          um={itemDetails.UMI}
+          available={itemDetails.dispCa}
+          setShowModal={setShowModal}
+          showModal={showModal}
+        />
         <IonButton expand="full" onClick={() => setShowModal(true)}><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton><br />
         <IonButton expand="full"><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
       </IonContent>

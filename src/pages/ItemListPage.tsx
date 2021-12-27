@@ -7,7 +7,10 @@ import {
   IonButtons,
   IonBackButton,
   IonProgressBar,
-  IonText
+  IonText,
+  IonButton,
+  IonIcon,
+  IonBadge
 } from '@ionic/react';
 import './ItemListPage.css';
 import ItemSearchForm from '../components/ItemSearchForm';
@@ -19,6 +22,8 @@ import { Http } from '@capacitor-community/http';
 
 import { AppContext } from '../State';
 
+import { cartOutline, cart } from 'ionicons/icons';
+
 const ItemListPage: React.FC = () => {
 
   //global state
@@ -27,7 +32,7 @@ const ItemListPage: React.FC = () => {
   //see .env
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const serverPort = process.env.REACT_APP_SERVER_PORT;
-  
+
   //local state
   const [loading, setLoading] = useState<Boolean>(false);
   const [error, setError] = useState<Boolean>(false);
@@ -36,10 +41,13 @@ const ItemListPage: React.FC = () => {
   const [listOffset, setListOffset] = useState(0); //TODO
   const [perPage, setPerPage] = useState(50);  //TODO
 
+
   const fasciaSconto = state.selectedClient.categoriaSconto;
   const user = state.user.name;
   const action = 'searchItem';
-  const itemSearchOptions= JSON.stringify(state.itemSearchOptions);
+  const itemSearchOptions = JSON.stringify(state.itemSearchOptions);
+
+  const cartBadge = state.cart.length;
 
   const handleInput = (input: string) => {
     if (input === '') {
@@ -76,7 +84,13 @@ const ItemListPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/ClientDetailPage" />
           </IonButtons>
-          <IonText>Listino {state.selectedClient.ragSociale} </IonText>
+          <IonText>{state.selectedClient.ragSociale} </IonText>
+          <IonButtons slot="end">
+            <IonButton routerLink='/CartListPage'>
+              {cartBadge > 0 ? <IonIcon slot="start" icon={cart} /> : <IonIcon slot="start" icon={cartOutline} />}
+              {cartBadge > 0 ? <IonBadge color="primary">{cartBadge}</IonBadge> : ''}
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
         <IonToolbar>
           <ItemSearchForm searchTerm={searchTerm} handleInput={handleInput} />
