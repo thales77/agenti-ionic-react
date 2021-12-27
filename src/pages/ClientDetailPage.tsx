@@ -41,7 +41,7 @@ const ClientDetailPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/ClientListPage" />
           </IonButtons>
-          <IonText>{state.client.codice} - {state.client.ragSociale}</IonText>
+          <IonText>{state.selectedClient.codice} - {state.selectedClient.ragSociale}</IonText>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

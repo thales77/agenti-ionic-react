@@ -31,7 +31,7 @@ const ClientInfoModal = ({ setShowInfoModal, showInfoModal }: Props) => {
   let year = new Date().getFullYear();
   let statoCliente: string = '';
 
-  switch (state.client.stato) {
+  switch (state.selectedClient.stato) {
     case 0:
       statoCliente = 'Attivo'
       break;
@@ -69,23 +69,23 @@ const ClientInfoModal = ({ setShowInfoModal, showInfoModal }: Props) => {
             Anagrafica
           </IonListHeader>
           <IonItem>
-            <IonLabel>{state.client.codice} - {state.client.ragSociale}</IonLabel>
+            <IonLabel>{state.selectedClient.codice} - {state.selectedClient.ragSociale}</IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Partita iva:  <IonText color="medium">{state.client.parIva} </IonText></IonLabel>
+            <IonLabel>Partita iva:  <IonText color="medium">{state.selectedClient.parIva} </IonText></IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Indirizzo: <IonText color="medium">{state.client.indirizzo}</IonText></IonLabel>
+            <IonLabel>Indirizzo: <IonText color="medium">{state.selectedClient.indirizzo}</IonText></IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel><IonText color="medium">{state.client.cap} {state.client.comune} {state.client.provincia}</IonText></IonLabel>
+            <IonLabel><IonText color="medium">{state.selectedClient.cap} {state.selectedClient.comune} {state.selectedClient.provincia}</IonText></IonLabel>
           </IonItem>
           <IonItem>
-            <IonButton fill="outline" onClick={() => Call(state.client.noTelefono)}>Tel.: {state.client.noTelefono}</IonButton>
-            <IonButton fill="outline" onClick={() => Call(state.client.noCell)}>Cell.: {state.client.noCell}</IonButton>
+            <IonButton fill="outline" onClick={() => Call(state.selectedClient.noTelefono)}>Tel.: {state.selectedClient.noTelefono}</IonButton>
+            <IonButton fill="outline" onClick={() => Call(state.selectedClient.noCell)}>Cell.: {state.selectedClient.noCell}</IonButton>
           </IonItem>
           <IonItem>
-            <IonLabel>Email: <IonText color="medium">{state.client.email}</IonText></IonLabel>
+            <IonLabel>Email: <IonText color="medium">{state.selectedClient.email}</IonText></IonLabel>
           </IonItem>
         </IonList>
         <IonList>
@@ -93,20 +93,20 @@ const ClientInfoModal = ({ setShowInfoModal, showInfoModal }: Props) => {
             Informazioni commerciali
           </IonListHeader>
           <IonItem>
-            <IonLabel>Fatturato {year}:  <IonText color="medium">€{state.client.fattCorrente}</IonText> / {year - 1}: <IonText color="medium">€{state.client.fattPrecedente}</IonText>
+            <IonLabel>Fatturato {year}:  <IonText color="medium">€{state.selectedClient.fattCorrente}</IonText> / {year - 1}: <IonText color="medium">€{state.selectedClient.fattPrecedente}</IonText>
             </IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Saldo: <IonText color="medium">€{state.client.saldoProfessional}</IonText></IonLabel>
+            <IonLabel>Saldo: <IonText color="medium">€{state.selectedClient.saldoProfessional}</IonText></IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Pagamento: <IonText color="medium">{state.client.pagamento}</IonText></IonLabel>
+            <IonLabel>Pagamento: <IonText color="medium">{state.selectedClient.pagamento}</IonText></IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Agente: <IonText color="medium">{state.client.agente}</IonText></IonLabel>
+            <IonLabel>Agente: <IonText color="medium">{state.selectedClient.agente}</IonText></IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Categoria:  <IonText color="medium">{state.client.categoriaSconto}</IonText></IonLabel>
+            <IonLabel>Categoria:  <IonText color="medium">{state.selectedClient.categoriaSconto}</IonText></IonLabel>
             <IonLabel>Stato: <IonText color="medium">{statoCliente}</IonText></IonLabel>
           </IonItem>
         </IonList>

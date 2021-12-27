@@ -1,4 +1,6 @@
-import React, { createContext, useReducer } from "react";
+import { actionSheetController } from "@ionic/core";
+import { createContext, useReducer } from "react";
+import ItemSearchForm from "./components/ItemSearchForm";
 
 const today = new Date();
 const endDate = today.toISOString();
@@ -8,11 +10,11 @@ const startDate = lastMonth.toISOString();
 
 const initialState = {
   user: { id: '999', name: 'Babis', surname: 'Boikos' },
-  client: {},
+  selectedClient: {},
   clientSearchOptions: ['ragioneSociale', 'codiceCliente'],
-  itemId: '',
+  selectedItemId: '',
   itemSearchOptions: ['descrizione', 'codiceSider'],
-  orderId: '',
+  selectedOrderId: '',
   orderSearchOptions: { startDate, endDate },
   cart: []
 }
@@ -22,19 +24,19 @@ let AppContext = createContext(initialState as any);
 let reducer = (state: any, action: any) => {
   switch (action.type) {
     case "setClient": {
-      return { ...state, client: action.client }
+      return { ...state, selectedClient: action.client }
     }
     case "setClientSearchOptions": {
       return { ...state, clientSearchOptions: action.clientSearchOptions }
     }
     case "setItem": {
-      return { ...state, itemId: action.itemId }
+      return { ...state, selectedItemId: action.itemId }
     }
     case "setItemSearchOptions": {
       return { ...state, itemSearchOptions: action.itemSearchOptions }
     }
     case "setOrder": {
-      return { ...state, orderId: action.orderId }
+      return { ...state, selectedOrderId: action.orderId }
     }
     case "setOrderSearchOptions": {
       return { ...state, orderSearchOptions: action.orderSearchOptions }
@@ -43,12 +45,12 @@ let reducer = (state: any, action: any) => {
       return { ...state, cart: [...state.cart, action.item] }
     }
     case "deleteItemFromCart": {
-      return { ...state, cart: [...state.cart, action.item] } //TODO
+      return { ...state, cart: state.cart.filter((item: any) => item.unique_id !== action.unique_id) }
     }
     case "updateItemInCart": {
-      return { ...state, cart: [...state.cart, action.item] } //TODO
+      return { ...state, cart: state.cart.map((item: any) => item.unique_id === action.item.unique_id ? { ...item, quantity: action.item.quantity } : item) };
     }
-  }
+  };
   return state;
 };
 

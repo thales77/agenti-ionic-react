@@ -44,7 +44,7 @@ const ClientMajorSalesHistoryPage: React.FC = () => {
   useEffect(() => {
     const getData = async () => {
       const options = {
-        url: `http://${serverUrl}:${serverPort}?action=${action}&clientId=${state.client.codice}&listOffset=${listOffset}&perPage=${perPage}&user=${user}`,
+        url: `http://${serverUrl}:${serverPort}?action=${action}&clientId=${state.selectedClient.codice}&listOffset=${listOffset}&perPage=${perPage}&user=${user}`,
         headers: { 'Content-Type': 'application/json' },
         params: {},
       };

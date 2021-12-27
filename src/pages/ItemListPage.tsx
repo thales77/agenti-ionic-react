@@ -36,7 +36,7 @@ const ItemListPage: React.FC = () => {
   const [listOffset, setListOffset] = useState(0); //TODO
   const [perPage, setPerPage] = useState(50);  //TODO
 
-  const fasciaSconto = state.client.categoriaSconto;
+  const fasciaSconto = state.selectedClient.categoriaSconto;
   const user = state.user.name;
   const action = 'searchItem';
   const itemSearchOptions= JSON.stringify(state.itemSearchOptions);
@@ -76,7 +76,7 @@ const ItemListPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/ClientDetailPage" />
           </IonButtons>
-          <IonText>Listino {state.client.ragSociale} </IonText>
+          <IonText>Listino {state.selectedClient.ragSociale} </IonText>
         </IonToolbar>
         <IonToolbar>
           <ItemSearchForm searchTerm={searchTerm} handleInput={handleInput} />

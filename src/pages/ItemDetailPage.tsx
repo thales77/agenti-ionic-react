@@ -58,7 +58,7 @@ const ItemDetailPage: React.FC = () => {
   };
 
   const options = {
-    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&codiceArticolo=${state.itemId}&fasciaSconto=${state.client.categoriaSconto}&user=${state.user.name}`,
+    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&codiceArticolo=${state.selectedItemId}&fasciaSconto=${state.selectedClient.categoriaSconto}&user=${state.user.name}`,
     headers: { 'Content-Type': 'application/json' },
     params: {},
   };
