@@ -60,7 +60,6 @@ const AddToCartModal = ({ itemId, itemDescription, price, umi, umv, conversionRa
         setTotal(+(quantity * conversionRatio * price).toFixed(2));
         setQtyi(+(quantity * conversionRatio).toFixed(2));
         setQtyv(quantity);
-
     };
 
     const handleNoteInput = (notes: string) => {
@@ -121,6 +120,9 @@ const AddToCartModal = ({ itemId, itemDescription, price, umi, umv, conversionRa
                     <IonItem>
                         <IonLabel>Prezzo: €{price} / {umi}</IonLabel>
                     </IonItem>
+                    {(qtyi > available) && <IonItem>
+                        <IonLabel color="danger">Disponibilità insufficiente, prezzo da confermare</IonLabel>
+                    </IonItem>}
                     <IonItem>
                         <IonLabel position="floating">Note</IonLabel>
                         <IonInput placeholder="Aggiungi una nota"
