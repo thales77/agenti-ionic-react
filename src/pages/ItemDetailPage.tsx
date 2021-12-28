@@ -32,6 +32,32 @@ import { cartOutline, timer, cart } from 'ionicons/icons';
 
 import AddToCartModal from '../components/AddToCartModal';
 
+let umi: string = "";
+let umm: string = "";
+let umv: string = "";
+let umco1: number = 0;
+let umco2: number;
+let umrel1: string = "";
+let umrel2: string = "";
+let umrel3: string = "";
+let umrel4: string = "";
+let conversionRatio: number = 0; // Quantità di vendita to Quantità inventariale conversion ratio
+let qtyi: number = 0;
+let qtyv: number = 0;
+const emptyItem = {
+  codiceArticolo: '',
+  descrizione: '',
+  codForn1: '',
+  codForn2: '',
+  sconto1: '',
+  sconto2: '',
+  prezzoLordo: '',
+  prezzoNetto: '',
+  UMI: '',
+  UMV: '',
+  dispCa: '',
+  fornitoreArticolo: ''
+};
 
 const ItemDetailPage: React.FC = () => {
 
@@ -42,21 +68,6 @@ const ItemDetailPage: React.FC = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const serverPort = process.env.REACT_APP_SERVER_PORT;
   const apiAction = 'getItemById';
-
-  const emptyItem = {
-    codiceArticolo: '',
-    descrizione: '',
-    codForn1: '',
-    codForn2: '',
-    sconto1: '',
-    sconto2: '',
-    prezzoLordo: '',
-    prezzoNetto: '',
-    UMI: '',
-    UMV: '',
-    dispCa: '',
-    fornitoreArticolo: ''
-  };
 
   const options = {
     url: `http://${serverUrl}:${serverPort}?action=${apiAction}&codiceArticolo=${state.selectedItemId}&fasciaSconto=${state.selectedClient.categoriaSconto}&user=${state.user.name}`,
@@ -90,6 +101,62 @@ const ItemDetailPage: React.FC = () => {
     getDataFromAPI();
   }, []);
 
+  //calculate um conversions
+  useEffect(() => {
+    umi = itemDetails.UMI;
+    itemDetails.UMM ? umm = itemDetails.UMM : umm = umi;
+    itemDetails.UMV ? umv = itemDetails.UMV : umv = umi;
+    itemDetails.UMCO1 ? umco1 = parseFloat(itemDetails.UMCO1.replace(/\,/g, '.')) : umco1 = 1;
+    itemDetails.UMCO2 ? umco2 = parseFloat(itemDetails.UMCO2.replace(/\,/g, '.')) : umco2 = 1;
+    umrel1 = itemDetails.UMREL1;
+    umrel2 = itemDetails.UMREL2;
+    umrel3 = itemDetails.UMREL3;
+    umrel4 = itemDetails.UMREL4;
+    qtyi = parseFloat(itemDetails.dispCa.replace(/\,/g, '.'));
+
+    //calculate UM conversion ratio
+    switch (umrel1) {
+      case 'V':
+        if (umrel2 === 'I') {
+          conversionRatio = umco1;
+        }
+        if (umrel2 === 'M') {
+          conversionRatio = umco1 * umco2;
+        }
+        if (umrel2 === '') {
+          conversionRatio = 1;
+        }
+        break;
+      case 'M':
+        if (umrel2 === 'I') {
+          conversionRatio = umco1;
+        }
+        if (umrel2 === 'V') {
+          conversionRatio = umco1 * umco2;
+        }
+        if (umrel2 === '') {
+          conversionRatio = 1;
+        }
+        break;
+      case 'I':
+        if (umrel2 === 'M') {
+          conversionRatio = umco1;
+        }
+        if (umrel2 === 'V') {
+          conversionRatio = umco1 * umco2;
+        }
+        if (umrel2 === '') {
+          conversionRatio = 1;
+        }
+        break;
+      default:
+        conversionRatio = 1;
+        break;
+    }
+    qtyv = +(qtyi / conversionRatio).toFixed(2);
+  }, [itemDetails]);
+
+
   return (
     <IonPage>
       <IonHeader>
@@ -100,7 +167,7 @@ const ItemDetailPage: React.FC = () => {
           <IonTitle>Dettaglio</IonTitle>
           <IonButtons slot="end">
             <IonButton routerLink='/CartListPage'>
-            {cartBadge > 0 ? <IonIcon slot="start" icon={cart} /> : <IonIcon slot="start" icon={cartOutline} />}
+              {cartBadge > 0 ? <IonIcon slot="start" icon={cart} /> : <IonIcon slot="start" icon={cartOutline} />}
               {cartBadge > 0 ? <IonBadge color="primary">{cartBadge}</IonBadge> : ''}
             </IonButton>
           </IonButtons>
@@ -120,16 +187,19 @@ const ItemDetailPage: React.FC = () => {
             :
             <IonCardContent>
               <IonItem>
-                <IonLabel>Disponibili: <IonText color="medium">{itemDetails.dispCa} {itemDetails.UMI}</IonText></IonLabel>
+                <IonLabel>Giac. Inventariale: <IonText color="medium">{qtyi} {umi} </IonText></IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Prezzo lordo:  <IonText color="medium">{itemDetails.prezzoLordo}</IonText></IonLabel>
+                <IonLabel>Giac. Vendita: <IonText color="medium">{qtyv} {umv}</IonText></IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Sconti:  <IonText color="medium">{itemDetails.sconto1}  {itemDetails.sconto2 ? ' + ' : ''} {itemDetails.sconto2}</IonText></IonLabel>
+                <IonLabel>Prezzo lordo:  <IonText color="medium">€{itemDetails.prezzoLordo} / {umi}</IonText></IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Prezzo netto:  <IonText color="medium">{itemDetails.prezzoNetto}</IonText></IonLabel>
+                <IonLabel>Sconto:  <IonText color="medium">{itemDetails.sconto1}  {itemDetails.sconto2 > 0 ? itemDetails.sconto2 : ''}</IonText></IonLabel>
+              </IonItem>
+              <IonItem>
+                <IonLabel>Prezzo netto:  <IonText color="medium">€{itemDetails.prezzoNetto} / {umi}</IonText></IonLabel>
               </IonItem>
             </IonCardContent>
           }
