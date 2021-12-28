@@ -187,11 +187,11 @@ const ItemDetailPage: React.FC = () => {
             :
             <IonCardContent>
               <IonItem>
-                <IonLabel>Giac. Inventariale: <IonText color="medium">{qtyi} {umi} </IonText></IonLabel>
-              </IonItem>
-              <IonItem>
                 <IonLabel>Giac. Vendita: <IonText color="medium">{qtyv} {umv}</IonText></IonLabel>
               </IonItem>
+              {(umv !== umi) && <IonItem>
+                <IonLabel>Giac. Inventariale: <IonText color="medium">{qtyi} {umi} </IonText></IonLabel>
+              </IonItem>}
               <IonItem>
                 <IonLabel>Prezzo lordo:  <IonText color="medium">€{itemDetails.prezzoLordo} / {umi}</IonText></IonLabel>
               </IonItem>
@@ -209,8 +209,10 @@ const ItemDetailPage: React.FC = () => {
           itemId={itemDetails.codiceArticolo}
           itemDescription={itemDetails.descrizione}
           price={parseFloat(itemDetails.prezzoNetto.replace(",", "."))}
-          um={itemDetails.UMI}
-          available={itemDetails.dispCa}
+          umi={umi}
+          umv={umv}
+          conversionRatio={conversionRatio}
+          available={qtyi}
           setShowModal={setShowModal}
           showModal={showModal}
         />

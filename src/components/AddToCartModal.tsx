@@ -27,13 +27,15 @@ interface Props {
     itemId: string;
     itemDescription: string;
     price: number;
-    um: string;
+    umi: string;
+    umv: string;
+    conversionRatio: number;
     available: number;
     setShowModal: (showModal: boolean) => void;
     showModal: boolean;
 };
 
-const AddToCartModal = ({ itemId, itemDescription, price, um, available, setShowModal, showModal }: Props) => {
+const AddToCartModal = ({ itemId, itemDescription, price, umi, umv, conversionRatio, available, setShowModal, showModal }: Props) => {
 
     //global state
     const { state, dispatch } = useContext(AppContext);
@@ -41,7 +43,8 @@ const AddToCartModal = ({ itemId, itemDescription, price, um, available, setShow
     const [present, dismiss] = useIonToast();
 
     const [total, setTotal] = useState<number>(0);
-    const [quantity, setQuantity] = useState<number>(0);
+    const [qtyv, setQtyv] = useState<number>(0);
+    const [qtyi, setQtyi] = useState<number>(0);
     const [notes, setNotes] = useState<string>('');
 
     const unique_id = uuid();
@@ -50,11 +53,13 @@ const AddToCartModal = ({ itemId, itemDescription, price, um, available, setShow
 
         if (!quantity) {
             setTotal(0);
+            setQtyi(0)
             return;
         }
 
-        setTotal(+(quantity * price).toFixed(2));
-        setQuantity(quantity);
+        setTotal(+(quantity * conversionRatio * price).toFixed(2));
+        setQtyi(+(quantity * conversionRatio).toFixed(2));
+        setQtyv(quantity);
 
     };
 
@@ -74,8 +79,10 @@ const AddToCartModal = ({ itemId, itemDescription, price, um, available, setShow
                 itemId,
                 itemDescription,
                 price,
-                um,
-                quantity,
+                umi,
+                umv,
+                qtyi,
+                qtyv,
                 total,
                 notes
             }
@@ -98,7 +105,7 @@ const AddToCartModal = ({ itemId, itemDescription, price, um, available, setShow
             <IonContent fullscreen>
                 <IonList>
                     <IonItem>
-                        <IonLabel position="floating">Quantità / {um}</IonLabel>
+                        <IonLabel position="floating">Quantità / {umv}</IonLabel>
                         <IonInput inputmode="decimal"
                             placeholder="Inserisci quantità"
                             onIonChange={e => handleQuantityInput(parseFloat(e.detail.value!))}
@@ -108,8 +115,11 @@ const AddToCartModal = ({ itemId, itemDescription, price, um, available, setShow
                         >
                         </IonInput>
                     </IonItem>
+                    {(umv !== umi) && <IonItem>
+                        <IonLabel>{qtyi} {umi}</IonLabel>
+                    </IonItem>}
                     <IonItem>
-                        <IonLabel>Prezzo: €{price} / {um}</IonLabel>
+                        <IonLabel>Prezzo: €{price} / {umi}</IonLabel>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Note</IonLabel>
