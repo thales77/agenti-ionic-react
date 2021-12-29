@@ -25,8 +25,6 @@ import { Http } from '@capacitor-community/http';
 
 import { AppContext } from '../State';
 
-import { ellipsisVertical } from 'ionicons/icons';
-
 const ClientListPage: React.FC = () => {
 
   //global state

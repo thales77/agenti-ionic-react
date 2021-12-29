@@ -1,6 +1,4 @@
-import { actionSheetController } from "@ionic/core";
 import { createContext, useReducer } from "react";
-import ItemSearchForm from "./components/ItemSearchForm";
 
 const today = new Date();
 const endDate = today.toISOString();
@@ -16,7 +14,8 @@ const initialState = {
   itemSearchOptions: ['descrizione', 'codiceSider'],
   selectedOrderId: '',
   orderSearchOptions: { startDate, endDate },
-  cart: []
+  cart: [],
+  orderNotes: ''
 }
 
 let AppContext = createContext(initialState as any);
@@ -49,6 +48,9 @@ let reducer = (state: any, action: any) => {
     }
     case "updateItemInCart": {
       return { ...state, cart: state.cart.map((item: any) => item.unique_id === action.item.unique_id ? { ...item, quantity: action.item.quantity } : item) };
+    }
+    case "setOrderNotes": {
+      return { ...state, orderNotes: action.notes }
     }
   };
   return state;

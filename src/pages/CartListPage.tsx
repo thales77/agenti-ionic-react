@@ -1,18 +1,10 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import {
-    IonList,
     IonItem,
     IonLabel,
     IonIcon,
-    IonListHeader,
     IonText,
     IonButton,
-    IonInput,
-    IonNote,
-    IonModal,
-    IonItemSliding,
-    IonItemOption,
-    IonItemOptions,
     IonHeader,
     IonToolbar,
     IonButtons,
@@ -25,7 +17,8 @@ import {
     IonCardTitle,
     IonCardContent,
     IonPage,
-    IonBackButton
+    IonBackButton,
+    IonTextarea
 } from '@ionic/react';
 
 
@@ -38,11 +31,14 @@ interface Item {
     unique_id: string;
     itemId: string;
     itemDescription: string;
-    notes: string;
+    umi: string;
+    umv: string;
+    qtyi: number;
+    qtyv: number;
     price: number;
-    quantity: number;
     um: string;
     total: number;
+    notes: string;
 };
 
 const CartListPage: React.FC = () => {
@@ -60,12 +56,12 @@ const CartListPage: React.FC = () => {
         });
     };
 
-    const handleUpdateItem = ({ unique_id, quantity }: Item) => {
+    const handleUpdateItem = ({ unique_id, qtyv }: Item) => {
         dispatch({
             type: 'updateItemInCart',
             item: {
                 unique_id,
-                quantity
+                qtyv
             }
         });
     };
@@ -78,6 +74,13 @@ const CartListPage: React.FC = () => {
         });
     };
 
+    const setOrderNotes = (notes: string) => {
+        dispatch({
+            type: 'setOrderNotes',
+            notes
+        });
+    }
+
     return (
         <IonPage>
             <IonHeader translucent>
@@ -85,22 +88,31 @@ const CartListPage: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/ClientDetailPage" />
                     </IonButtons>
-                    <IonTitle>Carrello</IonTitle>
+                    <IonTitle >Totale carrello: <IonText color="primary">€{cartTotal}</IonText></IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
                 <IonCard>
                     <IonCardHeader>
-                        <IonCardTitle>Totale carrello: €{cartTotal}</IonCardTitle>
+                        <IonCardTitle></IonCardTitle>
                         <IonCardSubtitle>{state.selectedClient.ragSociale}</IonCardSubtitle>
                     </IonCardHeader>
                     <IonCardContent>
                     </IonCardContent>
                 </IonCard>
+
                 <CartList handleDeleteItem={handleDeleteItem}
                     handleUpdateItem={handleUpdateItem}
                     selectItem={selectItem}
                     cart={cart} />
+                <br />
+                <IonItem>
+                    <IonTextarea placeholder="Note aggiuntive..."
+                        debounce={1000}
+                        value={state.orderNotes}
+                        onIonChange={e => setOrderNotes(e.detail.value!)}>
+                    </IonTextarea>
+                </IonItem>
             </IonContent>
             <IonFooter translucent>
                 <IonToolbar>
