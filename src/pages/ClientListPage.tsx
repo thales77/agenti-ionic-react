@@ -3,13 +3,9 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonTitle,
   IonToolbar,
   IonProgressBar,
-  IonButtons,
-  IonButton,
-  IonMenuButton,
-  IonIcon
+
 } from '@ionic/react';
 import './ClientListPage.css';
 import ClientSearchForm from '../components/ClientSearchForm';
