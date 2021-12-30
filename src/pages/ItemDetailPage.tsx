@@ -223,4 +223,4 @@ const ItemDetailPage: React.FC = () => {
   );
 };
 
-export default ItemDetailPage;
+export default React.memo(ItemDetailPage);
