@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
+
 import {
   IonContent,
   IonHeader,
@@ -23,9 +24,8 @@ import {
   IonBadge
 } from '@ionic/react';
 
-import { Http } from '@capacitor-community/http';
-
 import { AppContext } from '../State';
+import getDataFromAPI from '../utils/getDataFromApi';
 
 import './ItemDetailPage.css';
 import { cartOutline, timer, cart } from 'ionicons/icons';
@@ -59,21 +59,15 @@ const emptyItem = {
   fornitoreArticolo: ''
 };
 
+//see .env
+const serverUrl = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
+
+
 const ItemDetailPage: React.FC = () => {
 
   //global state
   const { state, dispatch } = useContext(AppContext);
-
-  //see .env
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const serverPort = process.env.REACT_APP_SERVER_PORT;
-  const apiAction = 'getItemById';
-
-  const options = {
-    url: `http://${serverUrl}:${serverPort}?action=${apiAction}&codiceArticolo=${state.selectedItemId}&fasciaSconto=${state.selectedClient.categoriaSconto}&user=${state.user.name}`,
-    headers: { 'Content-Type': 'application/json' },
-    params: {},
-  };
 
   //local state with defaults
   const [loading, setLoading] = useState<Boolean>(false);
@@ -83,26 +77,34 @@ const ItemDetailPage: React.FC = () => {
 
   const cartBadge = state.cart.length;
 
-  //get data from API
-  const getDataFromAPI = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const { data } = await Http.request({ ...options, method: 'GET' })
-      setItemDetails(JSON.parse(data));
-    } catch (error: any) {
-      setError(true);
-    }
-    setLoading(false);
-  };
 
   //get data on page load
   useEffect(() => {
-    getDataFromAPI();
+    setLoading(true);
+    setError(false);
+
+    const getItemDetails = async () => {
+      const params = {
+        action: 'getItemById',
+        codiceArticolo: state.selectedItemId,
+        fasciaSconto: state.selectedClient.categoriaSconto,
+        user: state.user.name
+      }
+      try {
+        const data = await getDataFromAPI(serverUrl, serverPort, params);
+        setItemDetails(data);
+      } catch (error) {
+        setError(true)
+      }
+      setLoading(false);
+    }
+    getItemDetails();
+
+    
   }, []);
 
   //calculate um conversions
-  useEffect(() => {
+  useMemo(() => {
     umi = itemDetails.UMI;
     itemDetails.UMM ? umm = itemDetails.UMM : umm = umi;
     itemDetails.UMV ? umv = itemDetails.UMV : umv = umi;

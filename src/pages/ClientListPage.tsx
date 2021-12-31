@@ -4,16 +4,11 @@ import {
   IonHeader,
   IonPage,
   IonToolbar,
-  IonProgressBar,
-
+  IonProgressBar
 } from '@ionic/react';
 import './ClientListPage.css';
 import ClientSearchForm from '../components/ClientSearchForm';
 import ClientList from '../components/ClientList';
-
-//test data
-//import testData from '../testData';
-
 
 import { useDebounce } from '../hooks/useDebounce';
 
