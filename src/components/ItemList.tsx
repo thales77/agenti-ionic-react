@@ -42,23 +42,17 @@ const ItemList = ({ itemArray }: Props) => {
 
   return (
     <IonList>
-      {(itemArray.length > 0) ?
-        itemArray.map((item) => (
-          <IonItem routerLink='/ItemDetailPage' onClick={() => selectItem(item)} key={item.codiceArticolo}>
-            <IonLabel>
-              <IonLabel color="dark"><p>{item.codiceArticolo} {item.codForn1 ? ' - ' : ''} {item.codForn1}</p></IonLabel>
-              <IonLabel color="dark"><h3>{item.descrizione} </h3></IonLabel>
-              <IonLabel color="medium"><p>{item.fornitoreArticolo}</p></IonLabel>
-            </IonLabel>
-            <IonIcon icon={cardOutline} slot="start" />
-            <IonBadge slot="end">{item.dispTot} {item.UMI}</IonBadge>
-          </ IonItem>
-        ))
-        :
-        <IonItem >
-          <IonText>No records</IonText>
+      {itemArray && itemArray.map((item) => (
+        <IonItem routerLink='/ItemDetailPage' onClick={() => selectItem(item)} key={item.codiceArticolo}>
+          <IonLabel>
+            <IonLabel color="dark"><p>{item.codiceArticolo} {item.codForn1 ? ' - ' : ''} {item.codForn1}</p></IonLabel>
+            <IonLabel color="dark"><h3>{item.descrizione} </h3></IonLabel>
+            <IonLabel color="medium"><p>{item.fornitoreArticolo}</p></IonLabel>
+          </IonLabel>
+          <IonIcon icon={cardOutline} slot="start" />
+          <IonBadge slot="end">{item.dispTot} {item.UMI}</IonBadge>
         </ IonItem>
-      }
+      ))}
     </IonList>
   );
 };

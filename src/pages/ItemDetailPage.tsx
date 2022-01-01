@@ -31,6 +31,7 @@ import './ItemDetailPage.css';
 import { cartOutline, timer, cart } from 'ionicons/icons';
 
 import AddToCartModal from '../components/AddToCartModal';
+import ItemPriceHistoryList from '../components/ItemPriceHistoryList';
 
 let umi: string = "";
 let umm: string = "";
@@ -74,6 +75,7 @@ const ItemDetailPage: React.FC = () => {
   const [error, setError] = useState<Boolean>(false);
   const [itemDetails, setItemDetails] = useState<any>(emptyItem);
   const [showModal, setShowModal] = useState(false);
+  const [priceArray, setPriceArray] = useState([]);
 
   const cartBadge = state.cart.length;
 
@@ -156,6 +158,27 @@ const ItemDetailPage: React.FC = () => {
     qtyv = +(qtyi / conversionRatio).toFixed(2);
   }, [itemDetails]);
 
+  const handleGetPriceHistory = () => {
+    setLoading(true);
+    setError(false);
+
+    const getPriceHistory = async () => {
+      const params = {
+        action: ' storicoPrezzi',
+        itemId: state.selectedItemId,
+        clientId: state.selectedClient.codice,
+        user: state.user.name
+      }
+      try {
+        const data = await getDataFromAPI(serverUrl, serverPort, params);
+        setPriceArray(data);
+      } catch (error) {
+        setError(true)
+      }
+      setLoading(false);
+    }
+    getPriceHistory();   
+  };
 
   return (
     <IonPage>
@@ -217,7 +240,9 @@ const ItemDetailPage: React.FC = () => {
           showModal={showModal}
         />
         <IonButton expand="full" onClick={() => setShowModal(true)}><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton><br />
-        <IonButton expand="full"><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
+        <IonButton expand="full" onClick={() => handleGetPriceHistory()}><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
+
+        <ItemPriceHistoryList priceArray={priceArray}/>
       </IonContent>
     </IonPage>
   );

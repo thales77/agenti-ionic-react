@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -16,9 +16,7 @@ import './ItemListPage.css';
 import ItemSearchForm from '../components/ItemSearchForm';
 import ItemList from '../components/ItemList';
 
-import { useDebounce } from '../hooks/useDebounce';
-
-import { Http } from '@capacitor-community/http';
+import getDataFromAPI from '../utils/getDataFromApi';
 
 import { AppContext } from '../State';
 
@@ -56,25 +54,31 @@ const ItemListPage: React.FC = () => {
     setSearchTerm(input);
   };
 
-  //delay api call using a debounce hook
-  useDebounce(async () => {
-    const options = {
-      url: `http://${serverUrl}:${serverPort}?action=${action}&searchTerm=${searchTerm}&itemSearchOptions=${itemSearchOptions}&listOffset=${listOffset}&perPage=${perPage}&fasciaSconto=${fasciaSconto}&user=${user}`,
-      headers: { 'Content-Type': 'application/json' },
-      params: {},
-    };
-    setLoading(true);
-    setError(false);
-    if (searchTerm.length > 0) {
-      try {
-        const { data } = await Http.request({ ...options, method: 'GET' })
-        const response = JSON.parse(data)
-        setItemArray(response.record);
-      } catch (error: any) {
-        setError(true);
+  //api call
+  useEffect(() => {
+    const getClientList = async () => {
+      const params = {
+        action: 'searchItem',
+        searchTerm,
+        itemSearchOptions: JSON.stringify(state.itemSearchOptions),
+        fasciaSconto,
+        listOffset,
+        perPage,
+        user: state.user.name
       }
+      setLoading(true);
+      setError(false);
+      if (searchTerm.length > 0) {
+        try {
+          const data = await getDataFromAPI(serverUrl, serverPort, params);
+          setItemArray(data.record);
+        } catch (error) {
+          setError(true)
+        }
+      }
+      setLoading(false);
     }
-    setLoading(false);
+    getClientList();
   }, [searchTerm, state.itemSearchOptions]);
 
   return (

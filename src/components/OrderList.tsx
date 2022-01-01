@@ -38,7 +38,7 @@ const OrderList = ({ orderArray }: Props) => {
 
     return (
         <IonList>
-            {orderArray.map((order) => (
+            {orderArray && orderArray.map((order) => (
                 <IonItem routerLink='/OrderDetailPage' key={order.orderId} onClick={() => handleClick(order)}>
                     <IonLabel>
                         <IonLabel color="dark"><p>Ordine No: {order.orderId} - Inser. {order.dataRegist}</p></IonLabel>

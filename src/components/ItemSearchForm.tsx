@@ -38,7 +38,11 @@ const ItemSearchForm: React.FC<Props> = ({ handleInput, searchTerm }) => {
         </IonSelect>
       </IonItem>
       <IonItem>
-        <IonInput value={searchTerm} placeholder={"Cerca articolo... "} onIonChange={e => handleInput(e.detail.value!)} clearInput></IonInput>
+        <IonInput value={searchTerm}
+          placeholder={"Cerca articolo... "}
+          onIonChange={e => handleInput(e.detail.value!)}
+          clearInput debounce={800}>
+        </IonInput>
       </IonItem>
     </>
   );

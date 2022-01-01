@@ -40,6 +40,7 @@ const ClientSalesHistoryPage: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     setError(false);
+    let isMounted = true;
     const getData = async () => {
       const params = {
         action: 'ultimiAcquisti',
@@ -57,6 +58,7 @@ const ClientSalesHistoryPage: React.FC = () => {
       setLoading(false);
     }
     getData();
+    return () => { isMounted = false };
   }, []);
 
   return (
