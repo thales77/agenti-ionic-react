@@ -98,9 +98,7 @@ const ItemDetailPage: React.FC = () => {
       }
       setLoading(false);
     }
-    getItemDetails();
-
-    
+    getItemDetails();   
   }, []);
 
   //calculate um conversions

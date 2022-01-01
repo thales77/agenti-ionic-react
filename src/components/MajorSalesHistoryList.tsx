@@ -41,7 +41,7 @@ const MajorSalesHistoryList = ({ salesArray }: Props) => {
 
   return (
     <IonList>
-      {salesArray.map((sale) => (
+      {salesArray && salesArray.map((sale) => (
         <IonItem routerLink='/ItemDetailPage' onClick={() => handleClick(sale)}  key={sale.codiceArticolo}>
           <IonLabel>
             <IonLabel ><p>{sale.codiceArticolo}</p></IonLabel>

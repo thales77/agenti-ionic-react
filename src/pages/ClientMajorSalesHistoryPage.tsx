@@ -12,7 +12,7 @@ import {
   IonProgressBar
 } from '@ionic/react';
 
-import { Http } from '@capacitor-community/http';
+import getDataFromAPI from '../utils/getDataFromApi';
 
 import './ClientMajorSalesHistoryPage.css';
 import MajorSalesHistoryList from '../components/MajorSalesHistoryList';
@@ -37,29 +37,25 @@ const ClientMajorSalesHistoryPage: React.FC = () => {
   const [listOffset, setListOffset] = useState(0);
   const [perPage, setPerPage] = useState(50);
 
-  const user = state.user.name;
-  const action = 'aqcuistiMaggiori';
-
-
   useEffect(() => {
+    setLoading(true);
+    setError(false);
     const getData = async () => {
-      const options = {
-        url: `http://${serverUrl}:${serverPort}?action=${action}&clientId=${state.selectedClient.codice}&listOffset=${listOffset}&perPage=${perPage}&user=${user}`,
-        headers: { 'Content-Type': 'application/json' },
-        params: {},
-      };
-
-      setLoading(true);
-      setError(false);
+      const params = {
+        action: 'aqcuistiMaggiori',
+        clientId: state.selectedClient.codice,
+        listOffset,
+        perPage,
+        user: state.user.name
+      }
       try {
-        const { data } = await Http.request({ ...options, method: 'GET' })
-        const response = JSON.parse(data)
-        setSalesArray(response.record);
-      } catch (error: any) {
-        setError(true);
+        const data = await getDataFromAPI(serverUrl, serverPort, params);
+        setSalesArray(data.record);
+      } catch (error) {
+        setError(true)
       }
       setLoading(false);
-    };
+    }
     getData();
   }, []);
 

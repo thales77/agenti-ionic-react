@@ -10,7 +10,7 @@ export default async (url: string | undefined, port: string | undefined, paramet
     };
     try {
         const { data } = await Http.request({ ...options, method: 'GET' })
-        return (JSON.parse(data));
+        return JSON.parse(data);
     } catch (error: any) {
         return error
     }

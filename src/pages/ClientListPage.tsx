@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -10,9 +10,7 @@ import './ClientListPage.css';
 import ClientSearchForm from '../components/ClientSearchForm';
 import ClientList from '../components/ClientList';
 
-import { useDebounce } from '../hooks/useDebounce';
-
-import { Http } from '@capacitor-community/http';
+import getDataFromAPI from '../utils/getDataFromApi';
 
 import { AppContext } from '../State';
 
@@ -33,10 +31,6 @@ const ClientListPage: React.FC = () => {
   const [listOffset, setListOffset] = useState(0);
   const [perPage, setPerPage] = useState(50);
 
-  const user = state.user.name;
-  const action = 'searchClient';
-  const clientSearchOptions = JSON.stringify(state.clientSearchOptions);
-
 
   const handleInput = (input: string) => {
     if (input === '') {
@@ -45,25 +39,30 @@ const ClientListPage: React.FC = () => {
     setSearchTerm(input);
   };
 
-  //delay api call using a debounce hook
-  useDebounce(async () => {
-    const options = {
-      url: `http://${serverUrl}:${serverPort}?action=${action}&searchTerm=${searchTerm}&clientSearchOptions=${clientSearchOptions}&listOffset=${listOffset}&perPage=${perPage}&user=${user}`,
-      headers: { 'Content-Type': 'application/json' },
-      params: {},
-    };
-    setLoading(true);
-    setError(false);
-    if (searchTerm.length > 0) {
-      try {
-        const { data } = await Http.request({ ...options, method: 'GET' })
-        const response = JSON.parse(data)
-        setClientArray(response.record);
-      } catch (error: any) {
-        setError(true);
+  //api call
+  useEffect(() => {
+    const getClientList = async () => {
+      const params = {
+        action: 'searchClient',
+        searchTerm,
+        clientSearchOptions: JSON.stringify(state.clientSearchOptions),
+        listOffset,
+        perPage,
+        user: state.user.name
       }
+      setLoading(true);
+      setError(false);
+      if (searchTerm.length > 0) {
+        try {
+          const data = await getDataFromAPI(serverUrl, serverPort, params);
+          setClientArray(data.record);
+        } catch (error) {
+          setError(true)
+        }
+      }
+      setLoading(false);
     }
-    setLoading(false);
+    getClientList();
   }, [searchTerm, state.clientSearchOptions]);
 
   return (

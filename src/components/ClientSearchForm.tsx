@@ -38,7 +38,7 @@ const ClientSearchForm: React.FC<Props> = ({ handleInput, searchTerm }) => {
         </IonSelect>
       </IonItem>
       <IonItem>
-        <IonInput value={searchTerm} placeholder={"Cerca cliente... "} onIonChange={e => handleInput(e.detail.value!)} clearInput></IonInput>
+        <IonInput value={searchTerm} placeholder={"Cerca cliente... "} onIonChange={e => handleInput(e.detail.value!)} clearInput debounce={500}></IonInput>
       </IonItem>
     </>
   );
