@@ -27,6 +27,8 @@
     "call-number": "^1.0.1",
     "date-fns": "^2.27.0",
     "ionicons": "^5.5.4",
+    "jspdf": "^2.5.0",
+    "jspdf-autotable": "^3.5.23",
     "qs": "^6.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect, useMemo, useRef } from 'react';
 
 import {
   IonContent,
@@ -25,7 +25,7 @@ import {
 } from '@ionic/react';
 
 import { AppContext } from '../State';
-import getDataFromAPI from '../utils/getDataFromApi';
+import getDataFromAPI from '../services/getDataFromApi';
 
 import './ItemDetailPage.css';
 import { cartOutline, timer, cart } from 'ionicons/icons';
@@ -71,37 +71,15 @@ const ItemDetailPage: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
 
   //local state with defaults
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [error, setError] = useState<Boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [itemDetails, setItemDetails] = useState<any>(emptyItem);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showPriceHistory, setShowPriceHistory] = useState<boolean>(false);
   const [priceArray, setPriceArray] = useState([]);
+  const mounted = useRef<boolean>(true);
 
   const cartBadge = state.cart.length;
-
-
-  //get data on page load
-  useEffect(() => {
-    setLoading(true);
-    setError(false);
-
-    const getItemDetails = async () => {
-      const params = {
-        action: 'getItemById',
-        codiceArticolo: state.selectedItemId,
-        fasciaSconto: state.selectedClient.categoriaSconto,
-        user: state.user.name
-      }
-      try {
-        const data = await getDataFromAPI(serverUrl, serverPort, params);
-        setItemDetails(data);
-      } catch (error) {
-        setError(true)
-      }
-      setLoading(false);
-    }
-    getItemDetails();   
-  }, []);
 
   //calculate um conversions
   useMemo(() => {
@@ -158,11 +136,38 @@ const ItemDetailPage: React.FC = () => {
     qtyv = +(qtyi / conversionRatio).toFixed(2);
   }, [itemDetails]);
 
-  const handleGetPriceHistory = () => {
+  //get data on page load
+  useEffect(() => {
     setLoading(true);
     setError(false);
+    setShowPriceHistory(false);
+    mounted.current = true;
 
-    const getPriceHistory = async () => {
+    const getList = async () => {
+      const params = {
+        action: 'getItemById',
+        codiceArticolo: state.selectedItemId,
+        fasciaSconto: state.selectedClient.categoriaSconto,
+        user: state.user.name
+      }
+      try {
+        const data = await getDataFromAPI(serverUrl, serverPort, params);
+        mounted.current && setItemDetails(data);
+      } catch (error) {
+        setError(true)
+      }
+      setLoading(false);
+      return () => mounted.current = false;
+    }
+    getList();
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(false);
+    mounted.current = true;
+
+    const getList = async () => {
       const params = {
         action: ' storicoPrezzi',
         itemId: state.selectedItemId,
@@ -171,14 +176,16 @@ const ItemDetailPage: React.FC = () => {
       }
       try {
         const data = await getDataFromAPI(serverUrl, serverPort, params);
-        setPriceArray(data);
+        mounted.current && setPriceArray(data.response);
+        console.log(priceArray)
       } catch (error) {
         setError(true)
       }
       setLoading(false);
+      return () => mounted.current = false;
     }
-    getPriceHistory();   
-  };
+    getList();
+  }, [showPriceHistory]);
 
   return (
     <IonPage>
@@ -240,9 +247,9 @@ const ItemDetailPage: React.FC = () => {
           showModal={showModal}
         />
         <IonButton expand="full" onClick={() => setShowModal(true)}><IonIcon slot="start" icon={cartOutline} />Aggiungi al carrello</IonButton><br />
-        <IonButton expand="full" onClick={() => handleGetPriceHistory()}><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
+        <IonButton expand="full" onClick={() => setShowPriceHistory(true)}><IonIcon slot="start" icon={timer} />Storico prezzi applicati</IonButton>
 
-        <ItemPriceHistoryList priceArray={priceArray}/>
+        {showPriceHistory && <ItemPriceHistoryList priceArray={priceArray} />}
       </IonContent>
     </IonPage>
   );

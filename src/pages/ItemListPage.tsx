@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -16,7 +16,7 @@ import './ItemListPage.css';
 import ItemSearchForm from '../components/ItemSearchForm';
 import ItemList from '../components/ItemList';
 
-import getDataFromAPI from '../utils/getDataFromApi';
+import getDataFromAPI from '../services/getDataFromApi';
 
 import { AppContext } from '../State';
 
@@ -32,13 +32,13 @@ const ItemListPage: React.FC = () => {
   const serverPort = process.env.REACT_APP_SERVER_PORT;
 
   //local state
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [error, setError] = useState<Boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [itemArray, setItemArray] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [listOffset, setListOffset] = useState(0); //TODO
-  const [perPage, setPerPage] = useState(50);  //TODO
-
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [listOffset, setListOffset] = useState<number>(0); //TODO
+  const [perPage, setPerPage] = useState<number>(50);  //TODO
+  const mounted = useRef<boolean>(true);
 
   const fasciaSconto = state.selectedClient.categoriaSconto;
   const user = state.user.name;
@@ -48,15 +48,15 @@ const ItemListPage: React.FC = () => {
   const cartBadge = state.cart.length;
 
   const handleInput = (input: string) => {
-    if (input === '') {
-      setItemArray([]);
-    }
-    setSearchTerm(input);
+    mounted.current && setSearchTerm(input);
   };
 
   //api call
   useEffect(() => {
-    const getClientList = async () => {
+    const getList = async () => {
+      mounted.current = true;
+      setLoading(true);
+      setError(false);
       const params = {
         action: 'searchItem',
         searchTerm,
@@ -66,19 +66,19 @@ const ItemListPage: React.FC = () => {
         perPage,
         user: state.user.name
       }
-      setLoading(true);
-      setError(false);
+
       if (searchTerm.length > 0) {
         try {
           const data = await getDataFromAPI(serverUrl, serverPort, params);
-          setItemArray(data.record);
+          mounted.current && setItemArray(data.record);
         } catch (error) {
           setError(true)
         }
       }
       setLoading(false);
+      return () => mounted.current = false;
     }
-    getClientList();
+    getList();
   }, [searchTerm, state.itemSearchOptions]);
 
   return (

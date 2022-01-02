@@ -12,7 +12,7 @@ import {
   IonProgressBar
 } from '@ionic/react';
 
-import getDataFromAPI from '../utils/getDataFromApi';
+import getDataFromAPI from '../services/getDataFromApi';
 
 import './ClientSalesHistoryPage.css';
 import SalesHistoryList from '../components/SalesHistoryList';

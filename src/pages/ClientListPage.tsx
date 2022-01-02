@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -10,7 +10,7 @@ import './ClientListPage.css';
 import ClientSearchForm from '../components/ClientSearchForm';
 import ClientList from '../components/ClientList';
 
-import getDataFromAPI from '../utils/getDataFromApi';
+import getDataFromAPI from '../services/getDataFromApi';
 
 import { AppContext } from '../State';
 
@@ -24,24 +24,24 @@ const ClientListPage: React.FC = () => {
   const serverPort = process.env.REACT_APP_SERVER_PORT;
 
   //local state
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [error, setError] = useState<Boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [clientArray, setClientArray] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [listOffset, setListOffset] = useState(0);
-  const [perPage, setPerPage] = useState(50);
-
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [listOffset, setListOffset] = useState<number>(0);
+  const [perPage, setPerPage] = useState<number>(50);
+  const mounted = useRef<boolean>(true);
 
   const handleInput = (input: string) => {
-    if (input === '') {
-      setClientArray([]);
-    }
-    setSearchTerm(input);
+    mounted.current && setSearchTerm(input);
   };
 
   //api call
   useEffect(() => {
-    const getClientList = async () => {
+    const getList = async () => {
+      mounted.current = true;
+      setLoading(true);
+      setError(false);
       const params = {
         action: 'searchClient',
         searchTerm,
@@ -50,19 +50,18 @@ const ClientListPage: React.FC = () => {
         perPage,
         user: state.user.name
       }
-      setLoading(true);
-      setError(false);
       if (searchTerm.length > 0) {
         try {
           const data = await getDataFromAPI(serverUrl, serverPort, params);
-          setClientArray(data.record);
+          mounted.current && setClientArray(data.record);
         } catch (error) {
           setError(true)
         }
       }
       setLoading(false);
+      return () => mounted.current = false;
     }
-    getClientList();
+    getList();
   }, [searchTerm, state.clientSearchOptions]);
 
   return (
