@@ -15,7 +15,7 @@ import { AppContext } from '../State';
 import { CallNumber } from '@ionic-native/call-number';
 import { informationCircleOutline } from 'ionicons/icons';
 
-export interface Client {
+interface Client {
   ragSociale: string | null;
   codice: string | null;
   parIva: string | null;

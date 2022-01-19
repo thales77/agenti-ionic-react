@@ -24,6 +24,7 @@ import {
 
 import { AppContext } from '../State';
 import { sendOutline, saveOutline, trashOutline } from 'ionicons/icons';
+import { createPDF } from '../services/createPdf';
 import CartList from '../components/CartList';
 
 
@@ -83,8 +84,13 @@ const CartListPage: React.FC = () => {
 
     const handleSend = () => {
         //TODO create PDF async
-        //open share (android/iphone) menu
-
+        createPDF(
+            state.selectedClient,
+            {
+                items: state.cart,
+                total: cartTotal,
+                notes: state.orderNotes
+            });
     };
 
     const handleSave = () => {
@@ -131,15 +137,15 @@ const CartListPage: React.FC = () => {
             <IonFooter translucent>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton expand="full" fill="clear" onClick={() => handleSend}>
+                        <IonButton expand="full" fill="clear" onClick={() => handleSend()}>
                             <IonIcon slot="start" icon={sendOutline} />
                             <IonLabel>Invia</IonLabel>
                         </IonButton>
-                        <IonButton expand="full" fill="clear" onClick={() => handleSave}>
+                        <IonButton expand="full" fill="clear" onClick={() => handleSave()}>
                             <IonIcon slot="start" icon={saveOutline} />
                             <IonLabel>Salva</IonLabel>
                         </IonButton>
-                        <IonButton expand="full" fill="clear" onClick={() => handleDelete}>
+                        <IonButton expand="full" fill="clear" onClick={() => handleDelete()}>
                             <IonIcon slot="start" icon={trashOutline} />
                             <IonLabel>Cancella</IonLabel>
                         </IonButton>
