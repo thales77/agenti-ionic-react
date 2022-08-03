@@ -12,7 +12,7 @@ import {
   IonIcon,
   IonBadge
 } from '@ionic/react';
-import './ItemListPage.css';
+import './itemListPage.css';
 import ItemSearchForm from '../components/ItemSearchForm';
 import ItemList from '../components/ItemList';
 
